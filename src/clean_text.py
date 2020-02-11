@@ -31,8 +31,8 @@ def _whitelist_filter(text: str) -> str:
     for escape_code in ESCAPE_CODES:
         removed_text = re.sub(escape_code, '', removed_text)
 
-    whitelist_ptn = re.compile(r'[a-zA-Z0-9\u3041-\u309F\u30A1-\u30FF\u4E00-\u9FFF]')
-    jp_ptn = re.compile(r'[0-9\u3041-\u309F\u30A1-\u30FF\u4E00-\u9FFF。]')
+    whitelist_ptn = re.compile(r'[a-zA-Z0-9\u3041-\u3096\u30A1-\u30F6\u4E00-\u9FFF]')
+    jp_ptn = re.compile(r'[0-9\u3041-\u3096\u30A1-\u30F6\u4E00-\u9FFF。]')
 
     filtered_text = ""
     for i, character in enumerate(removed_text):
@@ -56,9 +56,11 @@ def _whitelist_filter(text: str) -> str:
     filtered_text = re.sub(r'([!?。])[a-zA-Z0-9]+([!?。])', r'\1\2', filtered_text)
     filtered_text = re.sub(r'。。+', '。', filtered_text)
     filtered_text = re.sub(r'^。', '', filtered_text)
-    filtered_text = re.sub(r'\(。\)', '', filtered_text)
-    filtered_text = re.sub(r'\（。\）', '', filtered_text)
-    filtered_text = re.sub(r'\「。\」', '', filtered_text)
+    filtered_text = re.sub(r'\(.*?\)', '。', filtered_text)
+    filtered_text = re.sub(r'\(。\)', '。', filtered_text)
+    filtered_text = re.sub(r'\（.*?\）', '。', filtered_text)
+    filtered_text = re.sub(r'\（。\）', '。', filtered_text)
+    filtered_text = re.sub(r'\「。\」', '。', filtered_text)
     filtered_text = re.sub(r'。。+', '。', filtered_text)
     filtered_text = re.sub(r'^。', '', filtered_text)
 
