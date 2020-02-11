@@ -6,20 +6,14 @@ from joblib import Parallel, delayed
 from clean_text import clean_text
 
 
-def _clean_texts(input_text, splitter, twitter):
+def _clean_texts(input_text, delimiter, twitter):
     if input_text:
-        if splitter == 's':
-            print(clean_text(text=input_text, twitter=twitter))
-        elif splitter == 'sts':
-            former, latter = input_text.split('\t')
-            cleaned_former = clean_text(text=former, twitter=twitter)
-            cleaned_latter = clean_text(text=latter, twitter=twitter)
-            print(f'{cleaned_former}\t{cleaned_latter}')
+        print(delimiter.join([clean_text(text=text, twitter=twitter) for text in input_text.split(delimiter)]))
 
 
 def main():
     parser = ArgumentParser()
-    parser.add_argument('-s', '--splitter', default='s', type=str, choices=['s', 'sts'])
+    parser.add_argument('-d', '--delimiter', default='\t', type=str)
     parser.add_argument('-n', '--n_jobs', default=10, type=int)
     parser.add_argument('-t', '--twitter', action='store_true')
     parser.add_argument('-i', '--input-file', type=str)
@@ -31,7 +25,7 @@ def main():
     else:
         input_texts = ''.join(sys.stdin.readlines())
 
-    Parallel(n_jobs=args.n_jobs, verbose=10)([delayed(_clean_texts)(input_text, args.splitter, args.twitter)
+    Parallel(n_jobs=args.n_jobs, verbose=10)([delayed(_clean_texts)(input_text, args.delimiter, args.twitter)
                                               for input_text in input_texts.split('\n')])
 
 
