@@ -10,6 +10,7 @@ mojimoji = "*"
 emoji = "*"
 neologdn = "*"
 pytest = "*"
+joblib = "*"
 
 [requires]
 python_version = "3.8"

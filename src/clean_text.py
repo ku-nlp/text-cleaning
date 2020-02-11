@@ -7,9 +7,9 @@ WHITELIST_SYMBOL = ['!', '?']
 ESCAPE_CODES = [r'&lt;', r'&gt;', r'&amp;', r'&quot;', r'&nbsp;', r'&copy;']
 
 
-def clean_text(text, twitter_preprocess=False):
+def clean_text(text, twitter):
     cleaned_text = _normalize(text=text)
-    if twitter_preprocess:
+    if twitter:
         cleaned_text = _twitter_preprocess(text=cleaned_text)
     cleaned_text = _whitelist_filter(text=cleaned_text)
     return han_to_zen(cleaned_text)
@@ -45,6 +45,7 @@ def _whitelist_filter(text):
             filtered_text += character
         else:
             filtered_text += '。'
+    filtered_text += '。'
 
     filtered_text = re.sub(r'。。+', '。', filtered_text)
     filtered_text = re.sub(r'^。', '', filtered_text)
@@ -59,6 +60,6 @@ def _whitelist_filter(text):
     filtered_text = re.sub(r'([!\?])。', r'\1', filtered_text)
 
     filtered_text = re.sub(r'!!+', '!', filtered_text)
-    filtered_text = re.sub(r'\?\?+', r'\?', filtered_text)
+    filtered_text = re.sub(r'\?\?+', '?', filtered_text)
 
     return filtered_text
