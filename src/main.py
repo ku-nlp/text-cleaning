@@ -30,7 +30,7 @@ def main():
                 line = line.decode('utf-8')
             except UnicodeDecodeError:
                 line = ''
-        input_texts.append(line.strip())
+            input_texts.append(line.strip())
 
     outputs = Parallel(n_jobs=args.n_jobs, verbose=10)(
         [delayed(_clean_texts)(input_text, args.file_format, args.twitter) for input_text in input_texts])
