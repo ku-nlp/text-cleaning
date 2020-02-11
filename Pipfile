@@ -9,6 +9,7 @@ verify_ssl = true
 mojimoji = "*"
 emoji = "*"
 neologdn = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.8"
