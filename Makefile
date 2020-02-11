@@ -11,7 +11,7 @@ REL_PATHS := $(patsubst $(INPUT_DIR)/%,%,$(INPUT_FILES))
 INPUT_EXT := $(suffix $(word 1, $(INPUT_FILES)))
 
 CAT := cat
-ifeq ($(INPUT_EXT),gz)
+ifeq ($(INPUT_EXT),.gz)
 	CAT := zcat
 endif
 
