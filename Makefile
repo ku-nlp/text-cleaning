@@ -1,6 +1,7 @@
 INPUT_DIR := /somewhere/input
 OUTPUT_DIR := /somewhere/output
-DELIMITER := ""
+# input file format. txt or csv or tsv
+FILE_FORMAT := txt
 NUM_JOBS_PER_MACHINE := 10
 TWITTER :=
 
@@ -17,15 +18,11 @@ endif
 CLEANED_FILES := $(addprefix $(OUTPUT_DIR)/,$(REL_PATHS))
 
 CLEANING_ARGS =
-CLEANING_ARGS += --delimiter $(DELIMITER)
-CLEANING_ARGS += --n_jobs $(NUM_JOBS_PER_MACHINE)
+CLEANING_ARGS += --file-format $(FILE_FORMAT)
+CLEANING_ARGS += --n-jobs $(NUM_JOBS_PER_MACHINE)
 ifdef TWITTER
 	CLEANING_ARGS += --twitter
 endif
-
-#$(warning CLEANED_FILES = $(CLEANED_FILES))
-#$(warning INPUT_DIR = $(INPUT_DIR))
-#$(warning OUTPUT_DIR = $(OUTPUT_DIR))
 
 .PHONY: all
 all: $(CLEANED_FILES)
