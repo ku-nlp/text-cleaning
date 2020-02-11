@@ -4,8 +4,8 @@ OUTPUT_DIR := /somewhere/output
 FILE_FORMAT := txt
 NUM_JOBS_PER_MACHINE := 10
 TWITTER :=
+PYTHON :=
 
-PYTHON := $(shell which python)
 INPUT_FILES := $(shell find $(INPUT_DIR) -type f)
 REL_PATHS := $(patsubst $(INPUT_DIR)/%,%,$(INPUT_FILES))
 INPUT_EXT := $(suffix $(word 1, $(INPUT_FILES)))
