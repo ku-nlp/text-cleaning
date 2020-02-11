@@ -1,1 +1,17 @@
-text-cleaning
+# text-cleaning
+
+## Requirements
+- Python 3.6.5
+- mojimoji
+- neologdn
+- joblib
+
+## How to run
+
+    $ gxpc make -j 10 INPUT_DIR=/somewhere OUTPUT_DIR=/somewhere/out -- (gxp options)
+
+Options:
+
+- DELIMITER="": Field delimiter of one line (e.g. "\t" for tsv file)
+- NUM_JOBS_PER_MACHINE=10: The maximum number of concurrently running jobs per machine
+- TWITTER=1: Perform twitter specific cleaning
