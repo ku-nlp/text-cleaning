@@ -12,7 +12,7 @@ JOINER = {'txt': '', 'csv': ',', 'tsv': '\t'}
 def _clean_texts(input_text, file_format, twitter):
     delimiter = DELIMITER[file_format]
     joiner = JOINER[file_format]
-    print(joiner.join([clean_text(text=text, twitter=twitter) for text in input_text.split(delimiter)]))
+    return joiner.join([clean_text(text=text, twitter=twitter) for text in input_text.split(delimiter)])
 
 
 def main():
@@ -29,8 +29,10 @@ def main():
     else:
         input_texts = ''.join(sys.stdin.readlines())
 
-    Parallel(n_jobs=args.n_jobs, verbose=10)([delayed(_clean_texts)(input_text, args.file_format, args.twitter)
-                                              for input_text in input_texts.split('\n')])
+    outputs = Parallel(n_jobs=args.n_jobs, verbose=10)(
+        [delayed(_clean_texts)(input_text, args.file_format, args.twitter) for input_text in input_texts.split('\n')])
+    for output in outputs:
+        print(output)
 
 
 if __name__ == '__main__':
