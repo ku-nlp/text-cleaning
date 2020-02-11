@@ -31,8 +31,8 @@ def _whitelist_filter(text: str) -> str:
     for escape_code in ESCAPE_CODES:
         removed_text = re.sub(escape_code, '', removed_text)
 
-    whitelist_ptn = re.compile(r'[a-zA-Z0-9\u3041-\u3096\u30A1-\u30F6\u4E00-\u9FFF]')
-    jp_ptn = re.compile(r'[0-9\u3041-\u3096\u30A1-\u30F6\u4E00-\u9FFF。]')
+    whitelist_ptn = re.compile(r'[a-zA-Z0-9\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]')
+    jp_ptn = re.compile(r'[0-9\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF。]')
 
     filtered_text = ""
     for i, character in enumerate(removed_text):
