@@ -1,16 +1,13 @@
 INPUT := /somewhere/tsv/sentences/directory
 OUTPUT := /somewhere/out
-SPLITTER := ""
-JUMANPP :=
+DELIMITER := ""
+NUM_JOBS_PER_MACHINE := 10
+TWITTER :=
 
-SHELL = /bin/bash -eu
-#PYTHON := $(shell which python)
-JUMAN_COMMAND := /mnt/orange/ubrew/data/bin/jumanpp
+PYTHON := $(shell which python)
 
 INPUT_FILES := $(wildcard $(INPUT)/**/*.*)
 REL_PATHS := $(patsubst INPUT/%,%,$(INPUT_FILES))
-TEXT_DIR := $(OUTPUT)/text
-JUMAN_DIR := $(OUTPUT)/jumanpp
 
 INPUT_EXT := $(suffix $(word 1, $(INPUT_FILES)))
 CAT := cat
@@ -18,20 +15,18 @@ ifeq ($(INPUT_EXT),gz)
 	CAT := zcat
 endif
 
-CLEANED_FILES := $(addprefix $(TEXT_DIR),$(REL_PATHS))
-JUMANPP_FILES := $(addprefix $(JUMAN_DIR),$(REL_PATHS))
+CLEANED_FILES := $(addprefix $(OUTPUT)/,$(REL_PATHS))
 
-.PHONY: all
-ifdef JUMANPP
-all: $(JUMANPP_FILES)
-else
-all: $(CLEANED_FILES)
+CLEANING_ARGS=
+CLEANING_ARGS += --delimiter $(DELIMITER)
+CLEANING_ARGS += --n_jobs $(NUM_JOBS_PER_MACHINE)
+ifdef TWITTER
+	CLEANING_ARGS += --twitter
 endif
 
-$(JUMANPP_FILES): /$(TEXT_DIR)/%: $(JUMAN_DIR)/%
-	mkdir -p $(dir $@)
-	cat $< | ./scripts/jumanpp.sh > $@ || rm $@
+.PHONY: all
+all: $(CLEANED_FILES)
 
-$(CLEANED_FILES): /$(INPUT)/%: $(TEXT_DIR)/%
+$(CLEANED_FILES): /$(INPUT)/%: $(OUTPUT)/%
 	mkdir -p $(dir $@)
-	$(CAT) $< | ./scripts/clean.sh > $@ || rm $@
+	$(CAT) $< | $(PYTHON) src/main.py $(CLEANING_ARGS) > $@ || rm $@
