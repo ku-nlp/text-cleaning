@@ -8,12 +8,17 @@ from clean_text import clean_text
 
 def _clean_texts(input_text, delimiter, twitter):
     if input_text:
-        print(delimiter.join([clean_text(text=text, twitter=twitter) for text in input_text.split(delimiter)]))
+        if delimiter:
+            print(delimiter.join([clean_text(text=text, twitter=twitter) for text in input_text.split(delimiter)]))
+        else:
+            print(clean_text(text=input_text, twitter=twitter))
+    else:
+        print()
 
 
 def main():
     parser = ArgumentParser()
-    parser.add_argument('-d', '--delimiter', default='\t', type=str)
+    parser.add_argument('-d', '--delimiter', default='', type=str)
     parser.add_argument('-n', '--n_jobs', default=10, type=int)
     parser.add_argument('-t', '--twitter', action='store_true')
     parser.add_argument('-i', '--input-file', type=str)
