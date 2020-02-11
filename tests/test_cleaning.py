@@ -1,26 +1,13 @@
+import os
 import glob
 import json
-import typing
+from typing import Tuple
 import pytest
 
-import os
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from src import clean_text
+from src.clean_text import clean_text
 
 
-def read_test_file(path):
-    """Read a test file.
-
-    Parameters
-    ----------
-    path : str
-        The path to a test file.
-
-    Returns
-    -------
-    typing.Tuple[str, str]
-    """
+def read_test_file(path: str) -> Tuple[str, str]:
     with open(path) as f:
         dct = json.load(f)
         return dct['input_text'], dct['output_text']

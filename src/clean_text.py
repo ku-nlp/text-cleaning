@@ -7,7 +7,7 @@ WHITELIST_SYMBOL = ['!', '?', '(', ')', '（', '）', '「', '」']
 ESCAPE_CODES = [r'&lt;', r'&gt;', r'&amp;', r'&quot;', r'&nbsp;', r'&copy;']
 
 
-def clean_text(text, twitter):
+def clean_text(text: str, twitter: bool) -> str:
     cleaned_text = _normalize(text=text)
     if twitter:
         cleaned_text = _twitter_preprocess(text=cleaned_text)
@@ -15,18 +15,18 @@ def clean_text(text, twitter):
     return han_to_zen(cleaned_text)
 
 
-def _normalize(text, repeat=2):
+def _normalize(text: str, repeat: int = 2) -> str:
     return neologdn.normalize(text, repeat=repeat)
 
 
-def _twitter_preprocess(text):
+def _twitter_preprocess(text: str) -> str:
     replaced_text = re.sub(r'[RT]\w+', '', text)
     replaced_text = re.sub(r'[@][a-zA-Z0-9_]+', '', replaced_text)
     replaced_text = re.sub(r'#(\w+)', '', replaced_text)
     return replaced_text
 
 
-def _whitelist_filter(text):
+def _whitelist_filter(text: str) -> str:
     removed_text = re.sub(r'(http|https)://([-\w]+\.)+[-\w]+(/[-\w./?%&=]*)?', '', text)
     for escape_code in ESCAPE_CODES:
         removed_text = re.sub(escape_code, '', removed_text)
@@ -53,7 +53,7 @@ def _whitelist_filter(text):
     filtered_text = re.sub(r'笑笑+', r'笑', filtered_text)
     filtered_text = re.sub(r'笑。', '。', filtered_text)
 
-    filtered_text = re.sub(r'([!\?。])[a-zA-Z0-9]+([!\?。])', r'\1\2', filtered_text)
+    filtered_text = re.sub(r'([!?。])[a-zA-Z0-9]+([!?。])', r'\1\2', filtered_text)
     filtered_text = re.sub(r'。。+', '。', filtered_text)
     filtered_text = re.sub(r'^。', '', filtered_text)
     filtered_text = re.sub(r'\(。\)', '', filtered_text)
@@ -62,8 +62,8 @@ def _whitelist_filter(text):
     filtered_text = re.sub(r'。。+', '。', filtered_text)
     filtered_text = re.sub(r'^。', '', filtered_text)
 
-    filtered_text = re.sub(r'。([!\?])', r'\1', filtered_text)
-    filtered_text = re.sub(r'([!\?])。', r'\1', filtered_text)
+    filtered_text = re.sub(r'。([!?])', r'\1', filtered_text)
+    filtered_text = re.sub(r'([!?])。', r'\1', filtered_text)
 
     filtered_text = re.sub(r'!!+', '!', filtered_text)
     filtered_text = re.sub(r'\?\?+', '?', filtered_text)
