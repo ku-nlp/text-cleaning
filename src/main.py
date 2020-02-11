@@ -23,14 +23,11 @@ def main():
     parser.add_argument('-i', '--input-file', type=str)
     args = parser.parse_args()
 
-    if args.input_file is not None:
-        with open(args.input_file, 'r') as f:
-            input_texts = f.read()
-    else:
-        input_texts = ''.join(sys.stdin.readlines())
+    with open(args.input_file, 'r') if args.input_file else sys.stdin as f:
+        input_texts = [line.strip() for line in f.readlines()]
 
     outputs = Parallel(n_jobs=args.n_jobs, verbose=10)(
-        [delayed(_clean_texts)(input_text, args.file_format, args.twitter) for input_text in input_texts.split('\n')])
+        [delayed(_clean_texts)(input_text, args.file_format, args.twitter) for input_text in input_texts])
     for output in outputs:
         print(output)
 
