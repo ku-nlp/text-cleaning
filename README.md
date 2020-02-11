@@ -12,6 +12,6 @@
 
 Options:
 
-- DELIMITER="": Field delimiter of one line (e.g. "\t" for tsv file)
+- FILE_FORMAT=txt: Format of input file (txt or csv or tsv)
 - NUM_JOBS_PER_MACHINE=10: The maximum number of concurrently running jobs per machine
 - TWITTER=1: Perform twitter specific cleaning
