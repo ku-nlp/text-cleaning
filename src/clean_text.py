@@ -3,7 +3,7 @@ import re
 import neologdn
 from mojimoji import han_to_zen
 
-WHITELIST_SYMBOL = ['!', '?']
+WHITELIST_SYMBOL = ['!', '?', '(', ')', '（', '）', '「', '」']
 ESCAPE_CODES = [r'&lt;', r'&gt;', r'&amp;', r'&quot;', r'&nbsp;', r'&copy;']
 
 
@@ -49,10 +49,16 @@ def _whitelist_filter(text):
 
     filtered_text = re.sub(r'。。+', '。', filtered_text)
     filtered_text = re.sub(r'^。', '', filtered_text)
+
     filtered_text = re.sub(r'笑笑+', r'笑', filtered_text)
     filtered_text = re.sub(r'笑。', '。', filtered_text)
 
     filtered_text = re.sub(r'([!\?。])[a-zA-Z0-9]+([!\?。])', r'\1\2', filtered_text)
+    filtered_text = re.sub(r'。。+', '。', filtered_text)
+    filtered_text = re.sub(r'^。', '', filtered_text)
+    filtered_text = re.sub(r'\(。\)', '', filtered_text)
+    filtered_text = re.sub(r'\（。\）', '', filtered_text)
+    filtered_text = re.sub(r'\「。\」', '', filtered_text)
     filtered_text = re.sub(r'。。+', '。', filtered_text)
     filtered_text = re.sub(r'^。', '', filtered_text)
 
