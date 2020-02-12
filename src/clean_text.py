@@ -29,6 +29,7 @@ def _twitter_preprocess(text: str) -> str:
 def _replace_period(text: str) -> str:
     replaced_text = re.sub(r'。。+', '。', text)
     replaced_text = re.sub(r'^。', '', replaced_text)
+    replaced_text = re.sub(r'。[a-zA-Z0-9\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]。', '。', replaced_text)
     return replaced_text
 
 
