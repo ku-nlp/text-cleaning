@@ -3,7 +3,7 @@ import re
 import neologdn
 from mojimoji import han_to_zen
 
-WHITELIST_SYMBOL = ['!', '?', '(', ')', '（', '）', '「', '」']
+WHITELIST_SYMBOL = ['!', '?', '(', ')', '「', '」']
 ESCAPE_CODES = [r'&lt;', r'&gt;', r'&amp;', r'&quot;', r'&nbsp;', r'&copy;']
 
 
@@ -23,6 +23,12 @@ def _twitter_preprocess(text: str) -> str:
     replaced_text = re.sub(r'[RT]\w+', '', text)
     replaced_text = re.sub(r'[@][a-zA-Z0-9_]+', '', replaced_text)
     replaced_text = re.sub(r'#(\w+)', '', replaced_text)
+    return replaced_text
+
+
+def _replace_period(text: str) -> str:
+    replaced_text = re.sub(r'。。+', '。', text)
+    replaced_text = re.sub(r'^。', '', replaced_text)
     return replaced_text
 
 
@@ -47,25 +53,26 @@ def _whitelist_filter(text: str) -> str:
             filtered_text += '。'
     filtered_text += '。'
 
-    filtered_text = re.sub(r'。。+', '。', filtered_text)
-    filtered_text = re.sub(r'^。', '', filtered_text)
+    filtered_text = _replace_period(filtered_text)
 
     filtered_text = re.sub(r'笑笑+', r'笑', filtered_text)
     filtered_text = re.sub(r'笑。', '。', filtered_text)
 
     filtered_text = re.sub(r'([!?。])[a-zA-Z0-9]+([!?。])', r'\1\2', filtered_text)
-    filtered_text = re.sub(r'。。+', '。', filtered_text)
-    filtered_text = re.sub(r'^。', '', filtered_text)
-    filtered_text = re.sub(r'\(.*?\)', '。', filtered_text)
-    filtered_text = re.sub(r'\(。\)', '。', filtered_text)
-    filtered_text = re.sub(r'\（.*?\）', '。', filtered_text)
-    filtered_text = re.sub(r'\（。\）', '。', filtered_text)
-    filtered_text = re.sub(r'\「。\」', '。', filtered_text)
-    filtered_text = re.sub(r'。。+', '。', filtered_text)
-    filtered_text = re.sub(r'^。', '', filtered_text)
+    filtered_text = _replace_period(filtered_text)
+
+    han_parenthesis_ptn = re.compile(r'\([a-zA-Z0-9。]+\)')
+    while han_parenthesis_ptn.search(filtered_text):
+        filtered_text = han_parenthesis_ptn.sub('', filtered_text)
+    filtered_text = re.sub(r'「[a-zA-Z0-9。]+」', r'', filtered_text)
+    filtered_text = re.sub(r'\([^()]*\)', '。', filtered_text)
+    filtered_text = re.sub(r'「[^「」]*」', '。', filtered_text)
+
+    filtered_text = _replace_period(filtered_text)
 
     filtered_text = re.sub(r'。([!?])', r'\1', filtered_text)
     filtered_text = re.sub(r'([!?])。', r'\1', filtered_text)
+    filtered_text = _replace_period(filtered_text)
 
     filtered_text = re.sub(r'!!+', '!', filtered_text)
     filtered_text = re.sub(r'\?\?+', '?', filtered_text)
