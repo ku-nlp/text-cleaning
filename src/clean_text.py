@@ -52,7 +52,6 @@ def _whitelist_filter(text: str) -> str:
         else:
             filtered_text += '。'
     filtered_text += '。'
-
     filtered_text = _replace_period(filtered_text)
 
     filtered_text = re.sub(r'笑笑+', r'笑', filtered_text)
@@ -61,19 +60,17 @@ def _whitelist_filter(text: str) -> str:
     filtered_text = re.sub(r'([!?。])[a-zA-Z0-9]+([!?。])', r'\1\2', filtered_text)
     filtered_text = _replace_period(filtered_text)
 
-    han_parenthesis_ptn = re.compile(r'\([a-zA-Z0-9。]+\)')
-    while han_parenthesis_ptn.search(filtered_text):
-        filtered_text = han_parenthesis_ptn.sub('', filtered_text)
-    filtered_text = re.sub(r'「[a-zA-Z0-9。]+」', r'', filtered_text)
+    parenthesis_ptn = re.compile(r'\([a-zA-Z0-9。]+\)')
+    while parenthesis_ptn.search(filtered_text):
+        filtered_text = parenthesis_ptn.sub('。', filtered_text)
+    filtered_text = re.sub(r'「[a-zA-Z0-9。]+」', '。', filtered_text)
     filtered_text = re.sub(r'\([^()]*\)', '。', filtered_text)
     filtered_text = re.sub(r'「[^「」]*」', '。', filtered_text)
-
     filtered_text = _replace_period(filtered_text)
 
     filtered_text = re.sub(r'。([!?])', r'\1', filtered_text)
     filtered_text = re.sub(r'([!?])。', r'\1', filtered_text)
     filtered_text = _replace_period(filtered_text)
-
     filtered_text = re.sub(r'!!+', '!', filtered_text)
     filtered_text = re.sub(r'\?\?+', '?', filtered_text)
 
