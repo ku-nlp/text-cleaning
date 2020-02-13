@@ -36,7 +36,7 @@ def _twitter_preprocess(text: str) -> str:
 def _replace_period(text: str) -> str:
     replaced_text = re.sub(r'。。+', '。', text)
     replaced_text = re.sub(r'^。', '', replaced_text)
-    replaced_text = re.sub(r'。[a-zA-Z0-9\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]。', '。', replaced_text)
+    replaced_text = re.sub(r'。[a-zA-Z0-9\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]。', '。', replaced_text)
     return replaced_text
 
 
@@ -45,8 +45,8 @@ def _whitelist_filter(text: str) -> str:
     for escape_code in ESCAPE_CODES:
         removed_text = re.sub(escape_code, '', removed_text)
 
-    whitelist_ptn = re.compile(r'[a-zA-Z0-9\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]')
-    jp_ptn = re.compile(r'[0-9\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF。]')
+    whitelist_ptn = re.compile(r'[a-zA-Z0-9\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]')
+    jp_ptn = re.compile(r'[0-9\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF。]')
 
     filtered_text = ""
     for i, character in enumerate(removed_text):
@@ -71,13 +71,13 @@ def _whitelist_filter(text: str) -> str:
     parenthesis_ptn = re.compile(r'\([a-zA-Z0-9。]*\)')
     while parenthesis_ptn.search(filtered_text):
         filtered_text = parenthesis_ptn.sub('。', filtered_text)
-    filtered_text = re.sub(r'\(。[a-zA-Z0-9!?(「」。\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]*?\)',
+    filtered_text = re.sub(r'\(。[a-zA-Z0-9!?(「」。\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]*?\)',
                            '。', filtered_text)
-    filtered_text = re.sub(r'\([a-zA-Z0-9!?(「」\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]。\)',
+    filtered_text = re.sub(r'\([a-zA-Z0-9!?(「」\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]。\)',
                            '。', filtered_text)
-    filtered_text = re.sub(r'。[a-zA-Z0-9!?()「」\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]。',
+    filtered_text = re.sub(r'。[a-zA-Z0-9!?()「」\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]。',
                            '。', filtered_text)
-    filtered_text = re.sub(r'\([a-zA-Z0-9!?(「」\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]*。$',
+    filtered_text = re.sub(r'\([a-zA-Z0-9!?(「」\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]*。$',
                            '。', filtered_text)
     filtered_text = _replace_period(filtered_text)
     filtered_text = re.sub(r'\(\(+。', '。', filtered_text)
