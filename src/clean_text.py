@@ -77,10 +77,10 @@ def _whitelist_filter(text: str) -> str:
                            '。', filtered_text)
     filtered_text = re.sub(r'。[a-zA-Z0-9!?()「」\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]。',
                            '。', filtered_text)
-    filtered_text = re.sub(r'\([a-zA-Z0-9!?(「」\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]*。$',
-                           '。', filtered_text)
+    filtered_text = re.sub(r'\([^)]*[!?。]', '。', filtered_text)
+    filtered_text = re.sub(r'^[^(]*\)', '', filtered_text)
     filtered_text = _replace_period(filtered_text)
-    filtered_text = re.sub(r'\(\(+。', '。', filtered_text)
+    filtered_text = re.sub(r'\(+。', '。', filtered_text)
     filtered_text = re.sub(r'^\)', '', filtered_text)
     filtered_text = re.sub(r'\([(\u30CE\u30B7]+\)', '。', filtered_text)
     filtered_text = re.sub(r'[。!?][(\u30CE\u30B7]+[。!?]', '。', filtered_text)
