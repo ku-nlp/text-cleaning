@@ -9,14 +9,21 @@ ESCAPE_CODES = [r'&lt;', r'&gt;', r'&amp;', r'&quot;', r'&nbsp;', r'&copy;']
 
 def clean_text(text: str, twitter: bool) -> str:
     cleaned_text = _normalize(text=text)
-    if twitter:
-        cleaned_text = _twitter_preprocess(text=cleaned_text)
-    cleaned_text = _whitelist_filter(text=cleaned_text)
+    if _is_japanese(cleaned_text):
+        if twitter:
+            cleaned_text = _twitter_preprocess(text=cleaned_text)
+        cleaned_text = _whitelist_filter(text=cleaned_text)
     return han_to_zen(cleaned_text)
 
 
 def _normalize(text: str, repeat: int = 2) -> str:
     return neologdn.normalize(text, repeat=repeat)
+
+
+def _is_japanese(string):
+    al_num = re.compile(r'^[a-zA-Z0-9()!?,.:;\-\'\"\s]+$')
+    result = not(al_num.match(string) is not None)
+    return result
 
 
 def _twitter_preprocess(text: str) -> str:
@@ -55,17 +62,30 @@ def _whitelist_filter(text: str) -> str:
     filtered_text += '。'
     filtered_text = _replace_period(filtered_text)
 
-    filtered_text = re.sub(r'笑笑+', r'笑', filtered_text)
+    filtered_text = re.sub(r'笑笑+', '笑', filtered_text)
     filtered_text = re.sub(r'笑。', '。', filtered_text)
 
     filtered_text = re.sub(r'([!?。])[a-zA-Z0-9]+([!?。])', r'\1\2', filtered_text)
     filtered_text = _replace_period(filtered_text)
 
-    parenthesis_ptn = re.compile(r'\([a-zA-Z0-9。]+\)')
+    parenthesis_ptn = re.compile(r'\([a-zA-Z0-9。]*\)')
     while parenthesis_ptn.search(filtered_text):
         filtered_text = parenthesis_ptn.sub('。', filtered_text)
+    filtered_text = re.sub(r'\(。[a-zA-Z0-9!?(「」。\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]*?\)',
+                           '。', filtered_text)
+    filtered_text = re.sub(r'\([a-zA-Z0-9!?(「」\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]。\)',
+                           '。', filtered_text)
+    filtered_text = re.sub(r'。[a-zA-Z0-9!?()「」\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]。',
+                           '。', filtered_text)
+    filtered_text = re.sub(r'\([a-zA-Z0-9!?(「」\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]*。$',
+                           '。', filtered_text)
+
+    filtered_text = _replace_period(filtered_text)
+    filtered_text = re.sub(r'\(\(+。', '。', filtered_text)
+    filtered_text = re.sub(r'^\)', '', filtered_text)
+    filtered_text = re.sub(r'\([(\u30CE\u30B7]+\)', '。', filtered_text)
+    filtered_text = re.sub(r'[。!?][(\u30CE\u30B7]+[。!?]', '。', filtered_text)
     filtered_text = re.sub(r'「[a-zA-Z0-9。]+」', '。', filtered_text)
-    filtered_text = re.sub(r'\([^()]*\)', '。', filtered_text)
     filtered_text = re.sub(r'「[^「」]*」', '。', filtered_text)
     filtered_text = _replace_period(filtered_text)
 
@@ -73,6 +93,9 @@ def _whitelist_filter(text: str) -> str:
     filtered_text = re.sub(r'([!?])。', r'\1', filtered_text)
     filtered_text = _replace_period(filtered_text)
     filtered_text = re.sub(r'!!+', '!', filtered_text)
+    filtered_text = re.sub(r'^!', '', filtered_text)
     filtered_text = re.sub(r'\?\?+', '?', filtered_text)
+    filtered_text = re.sub(r'^\?', '', filtered_text)
+    filtered_text = '' if len(filtered_text) == 1 else filtered_text
 
     return filtered_text
