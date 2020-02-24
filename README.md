@@ -32,7 +32,7 @@ INPUT: 今日の夜、友達とラーメン行くよ(((o(*ﾟ▽ﾟ*)o)))
 OUTPUT: 今日の夜、友達とラーメン行くよ。
 
 # When using the twitter option.
-INPUT: @abcde0123 おっとっとwwそうでした:hand:！よろしくお願いします♪‼ #挨拶
+INPUT: @abcde0123 おっとっとwwそうでした✋!！よろしくお願いします♪‼ #挨拶
 OUTPUT: おっとっと。そうでした！よろしくお願いします。
 ```
 
