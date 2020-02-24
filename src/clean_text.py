@@ -85,7 +85,6 @@ def _whitelist_filter(text: str) -> str:
     filtered_text = re.sub(r'\([(\u30CE\u30B7]+\)', '。', filtered_text)
     filtered_text = re.sub(r'[。!?][(\u30CE\u30B7]+[。!?]', '。', filtered_text)
     filtered_text = re.sub(r'「[a-zA-Z0-9。]+」', '。', filtered_text)
-    filtered_text = re.sub(r'「[^「」]*」', '。', filtered_text)
     filtered_text = _replace_period(filtered_text)
 
     filtered_text = re.sub(r'。([!?])', r'\1', filtered_text)
