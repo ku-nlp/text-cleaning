@@ -6,16 +6,34 @@ in a whitelist method.
 
 ## Cleaning Example
 
-### Before:
-
 ```text
-dirty text
-```
+INPUT: これはサンプルです(≧∇≦*)!見てみて→http://a.bc/defGHIjkl
+OUTPUT: これはサンプルです！見てみて。
 
-### After:
+INPUT: 一緒に応援してるよ(o^^o)。ありがとう:smile::blush:
+OUTPUT: 一緒に応援してるよ。ありがとう。
 
-```text
-cleaned text
+INPUT: いいぞ〜⸜(* ॑꒳ ॑*  )⸝⋆*
+OUTPUT: いいぞ。
+
+INPUT: えっ((((；ﾟДﾟ)))))))
+OUTPUT: えっ。
+
+INPUT: 確かに「嘘でしょww」って笑ってたね
+OUTPUT: 確かに「嘘でしょ。」って笑ってたね。
+
+INPUT: おはようございますヽ(*´∀｀)ノ。。今日は雨ですね･････(T_T)
+OUTPUT: おはようございます。今日は雨ですね。
+
+INPUT: (灬º﹃º灬)おいしそうです♡
+OUTPUT: おいしそうです。
+
+INPUT: 今日の夜、友達とラーメン行くよ(((o(*ﾟ▽ﾟ*)o)))
+OUTPUT: 今日の夜、友達とラーメン行くよ。
+
+# When using the **twitter** option.
+INPUT: @abcde0123 おっとっとwwそうでした:hand:！よろしくお願いします♪‼ #挨拶
+OUTPUT: おっとっと。そうでした！よろしくお願いします。
 ```
 
 ## Requirements
