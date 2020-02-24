@@ -3,7 +3,7 @@ import re
 import neologdn
 from mojimoji import han_to_zen
 
-WHITELIST_SYMBOL = ['!', '?', '(', ')', '「', '」']
+WHITELIST_SYMBOL = ['!', '?', '(', ')', '「', '」', '、']
 ESCAPE_CODES = [r'&lt;', r'&gt;', r'&amp;', r'&quot;', r'&nbsp;', r'&copy;']
 
 
