@@ -62,7 +62,7 @@ def _whitelist_filter(text: str) -> str:
     filtered_text = ''
     for i, character in enumerate(text):
         if WHITELIST_PTN.match(character) and \
-                not (character == 'w' and text and ptn.match(filtered_text[-1])):
+                not (character == 'w' and filtered_text and ptn.match(filtered_text[-1])):
             filtered_text += character
             continue
         filtered_text += '。'
