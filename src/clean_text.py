@@ -40,9 +40,10 @@ def _twitter_preprocess(text: str) -> str:
     return replaced_text
 
 
-def _replace_period(text: str) -> str:
-    replaced_text = re.sub(r'。。+', '。', text)
-    replaced_text = re.sub(r'^。', '', replaced_text)
+def _replace_punctuation(text: str) -> str:
+    replaced_text = re.sub(r'([、。])、+', '\1', text)
+    replaced_text = re.sub(r'([、。])。+', '。', replaced_text)
+    replaced_text = re.sub(r'^[、。]', '', replaced_text)
     replaced_text = re.sub(
         rf'。[a-zA-Z0-9!?「」、。{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]。', '。', replaced_text)
     return replaced_text
@@ -96,26 +97,26 @@ def _filter(text: str) -> str:
     for escape_code in ESCAPE_CODES:
         text = re.sub(escape_code, '', text)
     text = _whitelist_filter(text=text)
-    text = _replace_period(text)
+    text = _replace_punctuation(text)
 
     text = re.sub(r'笑笑+', '笑', text)
     text = re.sub(r'笑。', '。', text)
 
     text = re.sub(r'([!?。])[a-zA-Z0-9]+([!?。])', r'\1\2', text)
-    text = _replace_period(text)
+    text = _replace_punctuation(text)
 
     text = _delete_kaomoji(text)
-    text = _replace_period(text)
+    text = _replace_punctuation(text)
     text = re.sub(r'[。!?][ノシﾉｼ]+[。!?]', '。', text)
 
     text = re.sub(r'(。\))|(\(。)', '。', text)
     text = re.sub(r'。([!?])', r'\1', text)
     text = re.sub(r'([!?])。', r'\1', text)
-    text = _replace_period(text)
+    text = _replace_punctuation(text)
     text = re.sub(r'^[!?]', '', text)
     text = re.sub(r'!!+', '!', text)
     text = re.sub(r'\?\?+', '?', text)
-    text = re.sub(r'^.。', '。', text)
+    text = re.sub(r'^.。', '', text)
     text = '' if len(text) == 1 else text
 
     return text
