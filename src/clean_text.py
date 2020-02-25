@@ -41,11 +41,11 @@ def _twitter_preprocess(text: str) -> str:
 
 
 def _replace_punctuation(text: str) -> str:
-    replaced_text = re.sub(r'([、。])、+', '\1', text)
+    replaced_text = re.sub(r'([、。])、+', r'\1', text)
     replaced_text = re.sub(r'([、。])。+', '。', replaced_text)
-    replaced_text = re.sub(r'^[、。]', '', replaced_text)
+    replaced_text = re.sub(r'^[、。!?]', '', replaced_text)
     replaced_text = re.sub(
-        rf'。[a-zA-Z0-9!?「」、。{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]。', '。', replaced_text)
+        rf'。[a-zA-Z0-9!?「」{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]。', '。', replaced_text)
     return replaced_text
 
 
@@ -107,20 +107,16 @@ def _filter(text: str) -> str:
 
     text = _delete_kaomoji(text)
     text = _replace_punctuation(text)
-    text = re.sub(r'[。!?][ノシﾉｼ]+[。!?]', '。', text)
 
     text = re.sub(r'(。\))|(\(。)', '。', text)
+    text = re.sub(r'[。!?][ノシﾉｼ]+[。!?]', '。', text)
     text = re.sub(r'。([!?])', r'\1', text)
     text = re.sub(r'([!?])。', r'\1', text)
     text = _replace_punctuation(text)
-    text = re.sub(r'^[!?]', '', text)
+
     text = re.sub(r'!!+', '!', text)
     text = re.sub(r'\?\?+', '?', text)
     text = re.sub(r'^.。', '', text)
     text = '' if len(text) == 1 else text
 
     return text
-
-
-if __name__ == '__main__':
-    clean_text('おっとっとwwそうでした✋！よろしくお願いします♪‼', False)
