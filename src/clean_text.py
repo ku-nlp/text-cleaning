@@ -3,8 +3,15 @@ import re
 import neologdn
 from mojimoji import han_to_zen
 
-WHITELIST_SYMBOL = ['!', '?', '(', ')', '「', '」', '、']
 ESCAPE_CODES = [r'&lt;', r'&gt;', r'&amp;', r'&quot;', r'&nbsp;', r'&copy;']
+
+HIRAGANA = r'\u3041-\u3096'
+KATAKANA = r'\u30A1-\u30F6'
+PROLONGED_SOUND_MARK = r'\u30FC'
+KANJI = r'\u3005\u4E00-\u9FFF'
+
+WHITELIST_PTN = re.compile(rf'[a-zA-Z0-9!?()「」、。{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]')
+JP_PTN = re.compile(rf'[{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]')
 
 
 def clean_text(text: str, twitter: bool) -> str:
@@ -12,7 +19,7 @@ def clean_text(text: str, twitter: bool) -> str:
     if _is_japanese(cleaned_text):
         if twitter:
             cleaned_text = _twitter_preprocess(text=cleaned_text)
-        cleaned_text = _whitelist_filter(text=cleaned_text)
+        cleaned_text = _filter(text=cleaned_text)
     return han_to_zen(cleaned_text)
 
 
@@ -36,64 +43,83 @@ def _twitter_preprocess(text: str) -> str:
 def _replace_period(text: str) -> str:
     replaced_text = re.sub(r'。。+', '。', text)
     replaced_text = re.sub(r'^。', '', replaced_text)
-    replaced_text = re.sub(r'。[a-zA-Z0-9\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]。', '。', replaced_text)
+    replaced_text = re.sub(
+        rf'。[a-zA-Z0-9!?「」、。{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]。', '。', replaced_text)
     return replaced_text
 
 
 def _whitelist_filter(text: str) -> str:
-    removed_text = re.sub(r'(http|https)://([-\w]+\.)+[-\w]+(/[-\w./?%&=]*)?', '', text)
-    for escape_code in ESCAPE_CODES:
-        removed_text = re.sub(escape_code, '', removed_text)
+    """
+    あいうw → あいう。
+    (あいう)w → (あいう)。
+    あいう → あいう。
+    あいう☆ → あいう。
+    あいう。w 。→ あいう。。。
 
-    whitelist_ptn = re.compile(r'[a-zA-Z0-9\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]')
-    jp_ptn = re.compile(r'[0-9\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF。]')
-
-    filtered_text = ""
-    for i, character in enumerate(removed_text):
-        if whitelist_ptn.match(character):
-            if character == 'w' and filtered_text and jp_ptn.match(filtered_text[-1]):
-                filtered_text += '。'
-            else:
-                filtered_text += character
-        elif character in WHITELIST_SYMBOL:
+    """
+    ptn = re.compile(rf'[0-9。w{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]')
+    filtered_text = ''
+    for i, character in enumerate(text):
+        if WHITELIST_PTN.match(character) and \
+                not (character == 'w' and text and ptn.match(filtered_text[-1])):
             filtered_text += character
-        else:
-            filtered_text += '。'
+            continue
+        filtered_text += '。'
     filtered_text += '。'
-    filtered_text = _replace_period(filtered_text)
-
-    filtered_text = re.sub(r'笑笑+', '笑', filtered_text)
-    filtered_text = re.sub(r'笑。', '。', filtered_text)
-
-    filtered_text = re.sub(r'([!?。])[a-zA-Z0-9]+([!?。])', r'\1\2', filtered_text)
-    filtered_text = _replace_period(filtered_text)
-
-    parenthesis_ptn = re.compile(r'\([a-zA-Z0-9。]*\)')
-    while parenthesis_ptn.search(filtered_text):
-        filtered_text = parenthesis_ptn.sub('。', filtered_text)
-    filtered_text = re.sub(r'\(。[a-zA-Z0-9!?(「」。\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]*?\)',
-                           '。', filtered_text)
-    filtered_text = re.sub(r'\([a-zA-Z0-9!?(「」\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]。\)',
-                           '。', filtered_text)
-    filtered_text = re.sub(r'。[a-zA-Z0-9!?()「」\u3005\u3041-\u3096\u30A1-\u30F6\u30FC\u4E00-\u9FFF]。',
-                           '。', filtered_text)
-    filtered_text = re.sub(r'\([^)]*[!?。]', '。', filtered_text)
-    filtered_text = re.sub(r'^[^(]*\)', '', filtered_text)
-    filtered_text = _replace_period(filtered_text)
-    filtered_text = re.sub(r'\(+。', '。', filtered_text)
-    filtered_text = re.sub(r'^\)', '', filtered_text)
-    filtered_text = re.sub(r'\([(\u30CE\u30B7]+\)', '。', filtered_text)
-    filtered_text = re.sub(r'[。!?][(\u30CE\u30B7]+[。!?]', '。', filtered_text)
-    filtered_text = re.sub(r'「[a-zA-Z0-9。]+」', '。', filtered_text)
-    filtered_text = _replace_period(filtered_text)
-
-    filtered_text = re.sub(r'。([!?])', r'\1', filtered_text)
-    filtered_text = re.sub(r'([!?])。', r'\1', filtered_text)
-    filtered_text = _replace_period(filtered_text)
-    filtered_text = re.sub(r'!!+', '!', filtered_text)
-    filtered_text = re.sub(r'^!', '', filtered_text)
-    filtered_text = re.sub(r'\?\?+', '?', filtered_text)
-    filtered_text = re.sub(r'^\?', '', filtered_text)
-    filtered_text = '' if len(filtered_text) == 1 else filtered_text
-
     return filtered_text
+
+
+def _delete_kaomoji(text: str) -> str:
+    text_ = ''
+    buff = ''
+    bracket_counter = 0
+    for c in text:
+        buff += c
+        if c == '(':
+            bracket_counter += 1
+        elif c == ')':
+            bracket_counter -= 1
+            if bracket_counter == 0:
+                stripped_buff = buff.lstrip('(').rstrip(')')
+                if all(JP_PTN.match(c) for c in stripped_buff) and stripped_buff:
+                    text_ += buff
+                buff = ''
+                continue
+        if bracket_counter == 0:
+            text_ += buff
+            buff = ''
+    return text_
+
+
+def _filter(text: str) -> str:
+    text = re.sub(r'(http|https)://([-\w]+\.)+[-\w]+(/[-\w./?%&=]*)?', '', text)
+    for escape_code in ESCAPE_CODES:
+        text = re.sub(escape_code, '', text)
+    text = _whitelist_filter(text=text)
+    text = _replace_period(text)
+
+    text = re.sub(r'笑笑+', '笑', text)
+    text = re.sub(r'笑。', '。', text)
+
+    text = re.sub(r'([!?。])[a-zA-Z0-9]+([!?。])', r'\1\2', text)
+    text = _replace_period(text)
+
+    text = _delete_kaomoji(text)
+    text = _replace_period(text)
+    text = re.sub(r'[。!?][ノシﾉｼ]+[。!?]', '。', text)
+
+    text = re.sub(r'(。\))|(\(。)', '。', text)
+    text = re.sub(r'。([!?])', r'\1', text)
+    text = re.sub(r'([!?])。', r'\1', text)
+    text = _replace_period(text)
+    text = re.sub(r'^[!?]', '', text)
+    text = re.sub(r'!!+', '!', text)
+    text = re.sub(r'\?\?+', '?', text)
+    text = re.sub(r'^.。', '。', text)
+    text = '' if len(text) == 1 else text
+
+    return text
+
+
+if __name__ == '__main__':
+    clean_text('おっとっとwwそうでした✋！よろしくお願いします♪‼', False)
