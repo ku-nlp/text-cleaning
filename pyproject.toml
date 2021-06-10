@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "text-cleaning"
+version = "1.0.0"
+description = "A powerful text cleaner for Japanese web texts"
+license = "MIT"
+authors = ["Kurohashi-Kawahara Lab, Kyoto Univ <contact@nlp.ist.i.kyoto-u.ac.jp>"]
+maintainers = ["Takashi Kodama <kodama@nlp.ist.i.kyoto-u.ac.jp>", "Nobuhiro Ueda <ueda@nlp.ist.i.kyoto-u.ac.jp>"]
+readme = "README.md"
+repository = "https://github.com/ku-nlp/text-cleaning"
+keywords = [
+    "NLP"
+]
+classifiers = [
+#    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9"
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+mojimoji = "*"
+neologdn = "*"
+joblib = "*"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
