@@ -37,7 +37,7 @@ OUTPUT: おっとっと。そうでした！よろしくお願いします。
 ```
 
 ## Requirements
-- Python 3.6.5
+- Python 3.7+
 - mojimoji
 - neologdn
 - joblib
@@ -52,7 +52,7 @@ cat input.txt | python src/main.py <options> > output.txt
 
 ### Using makefile
 When input files are located in directories hierarchically you can clean
-them keeping directory structure by using makefile.  
+them keeping directory structure by using makefile.
 If input is compressed files, Makefile detect their format from their
 suffix and output cleaned files in the same format.
 
