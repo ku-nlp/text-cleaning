@@ -15,22 +15,21 @@ JP_PTN = re.compile(rf'[{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]')
 
 
 def clean_text(text: str, twitter: bool) -> str:
-    cleaned_text = _normalize(text=text)
-    if _is_japanese(cleaned_text):
-        if twitter:
-            cleaned_text = _twitter_preprocess(text=cleaned_text)
-        cleaned_text = _filter(text=cleaned_text)
-    return han_to_zen(cleaned_text)
+    text = _normalize(text=text)
+    if _is_japanese(text):
+        if twitter is True:
+            text = _twitter_preprocess(text=text)
+        text = _filter(text=text)
+    return han_to_zen(text)
 
 
 def _normalize(text: str, repeat: int = 2) -> str:
     return neologdn.normalize(text, repeat=repeat)
 
 
-def _is_japanese(string):
+def _is_japanese(string: str) -> bool:
     al_num = re.compile(r'^[a-zA-Z0-9()!?,.:;\-\'\"\s]+$')
-    result = not(al_num.match(string) is not None)
-    return result
+    return al_num.match(string) is None
 
 
 def _twitter_preprocess(text: str) -> str:
