@@ -8,9 +8,10 @@ ESCAPE_CODES = [r'&lt;', r'&gt;', r'&amp;', r'&quot;', r'&nbsp;', r'&copy;']
 HIRAGANA = r'\u3041-\u3096'
 KATAKANA = r'\u30A1-\u30F6'
 PROLONGED_SOUND_MARK = r'\u30FC'
-KANJI = r'\u3005\u4E00-\u9FFF'
+KANJI = r'\u3006\u4E00-\u9FFF'  # U+3006: 〆
+REPEATING_MARK = r'\u3005'
 
-WHITELIST_PTN = re.compile(rf'[a-zA-Z0-9!?()「」、。{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]')
+WHITELIST_PTN = re.compile(rf'[a-zA-Z0-9!?()「」、。{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}{REPEATING_MARK}]')
 JP_PTN = re.compile(rf'[{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]')
 
 
