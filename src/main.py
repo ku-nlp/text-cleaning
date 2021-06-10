@@ -18,7 +18,7 @@ def _clean_texts(input_text, file_format, twitter):
 def main():
     parser = ArgumentParser()
     parser.add_argument('-f', '--file-format', default='txt', type=str, choices=['txt', 'csv', 'tsv'])
-    parser.add_argument('-n', '--n-jobs', default=10, type=int)
+    parser.add_argument('-n', '--n-jobs', default=1, type=int)
     parser.add_argument('-t', '--twitter', action='store_true')
     parser.add_argument('-i', '--input-file', type=str)
     args = parser.parse_args()
