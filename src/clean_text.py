@@ -14,13 +14,15 @@ WHITELIST_PTN = re.compile(rf'[a-zA-Z0-9!?()「」、。{HIRAGANA}{KATAKANA}{PRO
 JP_PTN = re.compile(rf'[{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]')
 
 
-def clean_text(text: str, twitter: bool) -> str:
+def clean_text(text: str, twitter: bool, han2zen: bool) -> str:
     text = _normalize(text=text)
     if _is_japanese(text):
         if twitter is True:
             text = _twitter_preprocess(text=text)
         text = _filter(text=text)
-    return han_to_zen(text)
+    if han2zen is True:
+        text = han_to_zen(text)
+    return text
 
 
 def _normalize(text: str, repeat: int = 2) -> str:

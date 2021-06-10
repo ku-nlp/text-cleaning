@@ -20,4 +20,4 @@ test_cases = [read_test_file(path) for path in sorted(glob.glob(test_file_path_p
 @pytest.mark.parametrize('test_case', test_cases)
 def test_clean_text(test_case):
     input_text, output_text = test_case
-    assert clean_text(input_text, twitter=True) == output_text
+    assert clean_text(input_text, twitter=True, han2zen=True) == output_text
