@@ -34,8 +34,12 @@ def main():
                 line = ''
             input_texts.append(line.strip())
 
-    outputs = Parallel(n_jobs=args.n_jobs, verbose=10)(
-        [delayed(_clean_texts)(input_text, args.file_format, args.twitter, args.han2zen) for input_text in input_texts])
+    if args.n_jobs == 0:
+        outputs = [_clean_texts(input_text, args.file_format, args.twitter, args.han2zen) for input_text in input_texts]
+    else:
+        outputs = Parallel(n_jobs=args.n_jobs, verbose=10)(
+            [delayed(_clean_texts)(input_text, args.file_format, args.twitter, args.han2zen) for input_text in
+             input_texts])
     for output in outputs:
         print(output)
 
