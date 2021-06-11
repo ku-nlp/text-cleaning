@@ -43,8 +43,8 @@ def _twitter_preprocess(text: str) -> str:
 
 
 def _replace_punctuation(text: str) -> str:
-    replaced_text = re.sub(r'([、。])、+', r'\1', text)
-    replaced_text = re.sub(r'([、。])。+', '。', replaced_text)
+    replaced_text = re.sub(r'、+', '、', text)  # "、、、" -> "、"
+    replaced_text = re.sub(r'[、。]*。[、。]*', '。', replaced_text)
     replaced_text = re.sub(r'^[、。!?]', '', replaced_text)
     replaced_text = re.sub(
         rf'。[a-zA-Z0-9!?「」{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]。', '。', replaced_text)
