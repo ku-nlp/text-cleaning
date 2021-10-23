@@ -4,7 +4,7 @@ from typing import Optional
 
 from joblib import Parallel, delayed
 
-from clean_text import clean_text
+from .clean_text import clean_text
 
 DELIMITER = {'txt': None, 'csv': ',', 'tsv': '\t'}
 JOINER = {'txt': '', 'csv': ',', 'tsv': '\t'}
