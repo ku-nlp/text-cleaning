@@ -42,4 +42,4 @@ all: $(CLEANED_FILES)
 
 $(CLEANED_FILES): $(OUTPUT_DIR)/%: $(INPUT_DIR)/%
 	mkdir -p $(dir $@)
-	$(CAT) $< | $(PYTHON) src/main.py $(CLEANING_ARGS) | $(CATOUT) > $@ || rm $@
+	$(CAT) $< | $(PYTHON) src/text_cleaning/main.py $(CLEANING_ARGS) | $(CATOUT) > $@ || rm $@
