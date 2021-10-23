@@ -47,7 +47,7 @@ OUTPUT: おっとっと。そうでした！よろしくお願いします。
 ### Using python script directly
 
 ```zsh
-cat input.txt | python src/main.py <options> > output.txt
+cat input.txt | python src/text_cleaning/main.py <options> > output.txt
 ```
 
 ### Using makefile
@@ -57,7 +57,7 @@ If input is compressed files, Makefile detect their format from their
 suffix and output cleaned files in the same format.
 
 ```zsh
-make INPUT_DIR=/somewhere OUTPUT_DIR=/somewhere/out PYTHON=/somewhere/.venv/bin/python
+make INPUT_DIR=/somewhere/in OUTPUT_DIR=/somewhere/out PYTHON=/somewhere/.venv/bin/python
 ```
 
 Options:
