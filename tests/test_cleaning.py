@@ -2,9 +2,10 @@ import os
 import glob
 import json
 from typing import Tuple
+
 import pytest
 
-from src.clean_text import clean_text
+from text_cleaning import clean_text
 
 
 def read_test_file(path: str) -> Tuple[str, str]:
