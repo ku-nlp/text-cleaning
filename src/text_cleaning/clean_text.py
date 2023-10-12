@@ -16,6 +16,18 @@ JP_PTN = re.compile(rf'[{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]')
 
 
 def clean_text(text: str, twitter: bool, han2zen: bool, repeat: int = 3) -> str:
+    """Clean japanese text
+
+    Args:
+        text: Input text
+        twitter: Whether to perform twitter-specific cleaning
+        han2zen: Whether to convert hankaku (half-width) characters to zenkaku
+         (full-width)
+        repeat: Number of iterations to repeat normalization
+
+    Returns:
+        Cleaned text
+    """
     text = _normalize(text=text, repeat=repeat)
     if _is_japanese(text):
         if twitter is True:
@@ -27,15 +39,42 @@ def clean_text(text: str, twitter: bool, han2zen: bool, repeat: int = 3) -> str:
 
 
 def _normalize(text: str, repeat: int) -> str:
+    """Normalize text using neologdn
+
+    Args:
+        text: Input text
+        repeat: Number of iterations to repeat normalization
+
+    Returns:
+
+    """
     return neologdn.normalize(text, repeat=repeat)
 
 
-def _is_japanese(string: str) -> bool:
+def _is_japanese(text: str) -> bool:
+    """Validate if string contains japanese characters
+
+    Args:
+        text: Input text
+
+    Returns:
+        True if string contains japanese characters, False otherwise
+    """
     al_num = re.compile(r'^[a-zA-Z0-9()!?,.:;\-\'\"\s]+$')
-    return al_num.match(string) is None
+    return al_num.match(text) is None
 
 
 def _twitter_preprocess(text: str) -> str:
+    """Performs twitter-specific preprocessing
+
+    Converts text to lowercase, removes RT, @mentions, #hashtags, and URLs
+
+    Args:
+        text: Input text
+
+    Returns:
+        Preprocessed text
+    """
     replaced_text = re.sub(r'[RT]\w+', '', text)
     replaced_text = re.sub(r'[@][a-zA-Z0-9_]+', '', replaced_text)
     replaced_text = re.sub(r'#(\w+)', '', replaced_text)
@@ -43,6 +82,14 @@ def _twitter_preprocess(text: str) -> str:
 
 
 def _replace_punctuation(text: str) -> str:
+    """Replace punctuation marks
+
+    Args:
+        text: Input text
+
+    Returns:
+        Text with replaced punctuation marks
+    """
     replaced_text = re.sub(r'、+', '、', text)  # "、、、" -> "、"
     replaced_text = re.sub(r'[、。]*。[、。]*', '。', replaced_text)
     replaced_text = re.sub(r'^[、。!?]', '', replaced_text)
@@ -52,13 +99,19 @@ def _replace_punctuation(text: str) -> str:
 
 
 def _whitelist_filter(text: str) -> str:
-    """
+    """Converts non-whitelisted characters to '。'
+
     あいうw → あいう。
     (あいう)w → (あいう)。
     あいう → あいう。
     あいう☆ → あいう。
     あいう。w 。→ あいう。。。
 
+    Args:
+        text: Input text
+
+    Returns:
+        Filtered text
     """
     ptn = re.compile(rf'[0-9。w{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]')
     filtered_text = ''
@@ -73,6 +126,14 @@ def _whitelist_filter(text: str) -> str:
 
 
 def _delete_kaomoji(text: str) -> str:
+    """Delete kaomoji (japanese emoticons) from text
+
+    Args:
+        text: Input text
+
+    Returns:
+        Text with kaomoji removed
+    """
     text_ = ''
     buff = ''
     bracket_counter = 0
@@ -95,30 +156,61 @@ def _delete_kaomoji(text: str) -> str:
 
 
 def _filter(text: str) -> str:
+    """Filter text to remove unwanted characters
+
+    Args:
+        text: Input text
+
+    Returns:
+        Filtered text
+    """
+    # Remove URLs
     text = re.sub(r'(http|https)://([-\w]+\.)+[-\w]+(/[-\w./?%&=]*)?', '', text)
+
+    # Remove escape codes
     for escape_code in ESCAPE_CODES:
         text = re.sub(escape_code, '', text)
+
+    # Remove non-whitelisted characters
     text = _whitelist_filter(text=text)
     text = _replace_punctuation(text)
 
+    # Remove 笑 (laughing) characters if they appear more than 3 times in a row
     text = re.sub(r'笑笑+', '笑', text)
     text = re.sub(r'笑。', '。', text)
 
+    # Remove repeating characters
     text = re.sub(r'([!?。])[a-zA-Z0-9]+([!?。])', r'\1\2', text)
     text = _replace_punctuation(text)
 
+    # Remove kaomoji
     text = _delete_kaomoji(text)
+
+    # Remove repeating punctuation marks
     text = _replace_punctuation(text)
 
+    # Replace certain punctuation patterns (e.g. "。)" -> "。")
     text = re.sub(r'(。\))|(\(。)', '。', text)
+
+    # Remove repeating sequences of punctuation characters
     text = re.sub(r'[。!?][ノシﾉｼ]+[。!?]', '。', text)
+
+    # Replace certain punctuation patterns
     text = re.sub(r'。([!?])', r'\1', text)
     text = re.sub(r'([!?])。', r'\1', text)
     text = _replace_punctuation(text)
 
+    # Replace multiple exclamation marks with a single exclamation mark
     text = re.sub(r'!!+', '!', text)
+
+    # Replace multiple question marks with a single question mark
     text = re.sub(r'\?\?+', '?', text)
+
+    # Remove a period at the beginning of the text
     text = re.sub(r'^.。', '', text)
+
+    # Check if text is empty
     text = '' if len(text) == 1 else text
 
+    # Return text
     return text

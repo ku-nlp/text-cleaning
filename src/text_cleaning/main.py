@@ -11,6 +11,18 @@ JOINER = {'txt': '', 'csv': ',', 'tsv': '\t'}
 
 
 def _clean_texts(input_text: str, file_format: str, twitter: bool, han2zen: bool) -> str:
+    """Cleans input text
+
+    Args:
+        input_text: Input text as string
+        file_format: File format of input text
+        twitter: Whether to perform twitter-specific cleaning
+        han2zen: Whether to convert hankaku (half-width) characters to zenkaku
+         (full-width)
+
+    Returns:
+        Cleaned text as string
+    """
     delimiter: Optional[str] = DELIMITER[file_format]
     joiner: str = JOINER[file_format]
     return joiner.join(clean_text(text, twitter=twitter, han2zen=han2zen) for text in input_text.split(delimiter))
