@@ -1,31 +1,30 @@
 [tool.poetry]
-name = "text-cleaning"
+name = "jp-broom"
 version = "1.0.0"
 description = "A powerful text cleaner for Japanese web texts"
 license = "MIT"
-authors = ["Kurohashi-Kawahara Lab, Kyoto Univ <contact@nlp.ist.i.kyoto-u.ac.jp>"]
-maintainers = ["Takashi Kodama <kodama@nlp.ist.i.kyoto-u.ac.jp>", "Nobuhiro Ueda <ueda@nlp.ist.i.kyoto-u.ac.jp>"]
+authors = ["Kurohashi-Kawahara Lab, Kyoto Univ <contact@nlp.ist.i.kyoto-u.ac.jp>", "Michael Verdegaal"]
+maintainers = ["Michael Verdegaal"]
 readme = "README.md"
-repository = "https://github.com/ku-nlp/text-cleaning"
+repository = "https://github.com/MichaelVerdegaal/jp-broom"
 keywords = [
     "NLP"
 ]
 classifiers = [
-#    "License :: OSI Approved :: BSD License",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9"
+    "Programming Language :: Python :: 3.11"
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
-mojimoji = "*"
-neologdn = "*"
-joblib = "*"
+python = "^3.11"
+neologdn = "^0.5.2"
+mojimoji = "^0.0.12"
+joblib = "^1.3.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
