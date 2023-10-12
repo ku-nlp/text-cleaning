@@ -5,11 +5,11 @@ from typing import Tuple
 
 import pytest
 
-from text_cleaning import clean_text
+from src.text_cleaning import clean_text
 
 
 def read_test_file(path: str) -> Tuple[str, str]:
-    with open(path) as f:
+    with open(path, encoding='utf-8') as f:
         dct = json.load(f)
         return dct['input_text'], dct['output_text']
 
