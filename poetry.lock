@@ -25,18 +25,6 @@ files = [
 ]
 
 [[package]]
-name = "joblib"
-version = "1.3.2"
-description = "Lightweight pipelining with Python functions"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "joblib-1.3.2-py3-none-any.whl", hash = "sha256:ef4331c65f239985f3f2220ecc87db222f08fd22097a3dd5698f693875f8cbb9"},
-    {file = "joblib-1.3.2.tar.gz", hash = "sha256:92f865e621e17784e7955080b6d042489e3b8e294949cc44c6eac304f59772b1"},
-]
-
-[[package]]
 name = "mojimoji"
 version = "0.0.12"
 description = "A fast converter between Japanese hankaku and zenkaku characters"
@@ -133,4 +121,4 @@ testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "no
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "87b36af5aaa5d54c987baec2713b3cae1ab8fc207c9c9dadd179ffcf41936156"
+content-hash = "0c8515d325653f2db5f96a516134de5eb65497f6a5d999f337066ecf67627e33"
