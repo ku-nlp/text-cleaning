@@ -1,10 +1,9 @@
-import glob
 import json
-import os
 from pathlib import Path
+
 import pytest
 
-from src.text_cleaning import clean_text
+from jp_broom import clean_text
 
 
 def _read_test_file(path: str) -> tuple[str, str]:

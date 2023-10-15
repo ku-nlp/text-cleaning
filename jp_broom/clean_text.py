@@ -15,14 +15,14 @@ WHITELIST_PTN = re.compile(rf'[a-zA-Z0-9!?()「」、。{HIRAGANA}{KATAKANA}{PRO
 JP_PTN = re.compile(rf'[{HIRAGANA}{KATAKANA}{PROLONGED_SOUND_MARK}{KANJI}]')
 
 
-def clean_text(text: str, twitter: bool, han2zen: bool, repeat: int = 3) -> str:
+def clean_text(text: str, han2zen: bool = True, twitter: bool = False, repeat: int = 3) -> str:
     """Clean japanese text
 
     Args:
         text: Input text
-        twitter: Whether to perform twitter-specific cleaning
         han2zen: Whether to convert hankaku (half-width) characters to zenkaku
          (full-width)
+        twitter: Whether to perform twitter-specific cleaning
         repeat: Number of iterations to repeat normalization
 
     Returns:

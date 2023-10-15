@@ -2,7 +2,7 @@ import sys
 from argparse import ArgumentParser
 from typing import Optional
 
-from .clean_text import clean_text
+from jp_broom import clean_text
 
 DELIMITER = {'txt': None, 'csv': ',', 'tsv': '\t'}
 JOINER = {'txt': '', 'csv': ',', 'tsv': '\t'}
