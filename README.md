@@ -1,4 +1,4 @@
-# jp-broo: A Japanese text cleaner
+# jp-broom: A Japanese text cleaner
 
 ## Description
 This project cleans Japanese texts for the usage in NLP projects. Japanese texts require different techniques from conventional ones, as they tend to include a wide collection of different symbols and emoticons (i.e. kaomoji). 
