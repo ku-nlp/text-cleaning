@@ -1,8 +1,9 @@
-# text-cleaning: A Japanese powerful text cleaner
+# jp-broo: A Japanese text cleaner
 
 ## Description
-This project cleans dirty Japanese texts, which include a lot of emoji and kaomoji
-in a whitelist method.
+This project cleans Japanese texts for the usage in NLP projects. Japanese texts require different techniques from conventional ones, as they tend to include a wide collection of different symbols and emoticons (i.e. kaomoji). 
+
+This package provides a simple text cleaner that removes most of the unecessary characters and symbols, while keeping the original text intact.
 
 ## Cleaning Example
 
@@ -37,32 +38,12 @@ OUTPUT: おっとっと。そうでした！よろしくお願いします。
 ```
 
 ## Requirements
-- Python 3.7+
+- Python 3.11+
 - mojimoji
 - neologdn
-- joblib
 
 ## How to Run
 
-### Using python script directly
-
-```zsh
-cat input.txt | python src/text_cleaning/main.py <options> > output.txt
-```
-
-### Using makefile
-When input files are located in directories hierarchically you can clean
-them keeping directory structure by using makefile.
-If input is compressed files, Makefile detect their format from their
-suffix and output cleaned files in the same format.
-
-```zsh
-make INPUT_DIR=/somewhere/in OUTPUT_DIR=/somewhere/out PYTHON=/somewhere/.venv/bin/python
-```
-
-Options:
-
-- FILE_FORMAT=txt: Format of input file (txt or csv or tsv)
-- NUM_JOBS_PER_MACHINE=10: The maximum number of concurrently running jobs per machine
-- TWITTER=1: Perform twitter specific cleaning
-- PYTHON: Path to python interpreter of virtual environment
+1. Import the package `from jp_broom import clean_text`
+2. Prepare your text as a string
+3. Run `clean_text(text, han2zen= True, twitter=False, repeat = 3)` on your text variable
