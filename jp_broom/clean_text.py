@@ -175,7 +175,7 @@ def _filter(text: str) -> str:
     text = _whitelist_filter(text=text)
     text = _replace_punctuation(text)
 
-    # Remove 笑 (laughing) characters if they appear more than 3 times in a row
+    # remove 笑 characters if they are used as an expression of laughter (i.e. LOL)
     text = re.sub(r'笑笑+', '笑', text)
     text = re.sub(r'笑。', '。', text)
 
@@ -183,7 +183,7 @@ def _filter(text: str) -> str:
     text = re.sub(r'([!?。])[a-zA-Z0-9]+([!?。])', r'\1\2', text)
     text = _replace_punctuation(text)
 
-    # Remove kaomoji
+    # Remove kaomoji, e.g. (͡° ͜ ͡°)
     text = _delete_kaomoji(text)
 
     # Remove repeating punctuation marks
@@ -208,6 +208,12 @@ def _filter(text: str) -> str:
 
     # Remove a period at the beginning of the text
     text = re.sub(r'^.。', '', text)
+
+    # Replace alternative numbers (０１２３４５６７８９) with regular numbers (0123456789)
+    text = text.translate(str.maketrans('０１２３４５６７８９', '0123456789'))
+
+    # Remove brackets「」
+    text = re.sub(r'[「」]', '', text)
 
     # Check if text is empty
     text = '' if len(text) == 1 else text
