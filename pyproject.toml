@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jp-broom"
-version = "1.0.0"
+version = "1.0.1"
 description = "A powerful text cleaner for Japanese web texts"
 license = "MIT"
 authors = ["Kurohashi-Kawahara Lab, Kyoto Univ <contact@nlp.ist.i.kyoto-u.ac.jp>", "Michael Verdegaal"]
