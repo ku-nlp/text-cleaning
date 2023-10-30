@@ -1,9 +1,14 @@
 # jp-broom: A Japanese text cleaner
 
 ## Description
-This project cleans Japanese texts for the usage in NLP projects. Japanese texts require different techniques from conventional ones, as they tend to include a wide collection of different symbols and emoticons (i.e. kaomoji). 
+This project provides a simple text cleaner that removes most of the unecessary characters and symbols in Japanese 
+text, while  keeping the original text intact. Japanese texts require different techniques from conventional 
+ones, as they tend to include a wide collection of different symbols and emoticons (i.e. kaomoji). 
 
-This package provides a simple text cleaner that removes most of the unecessary characters and symbols, while keeping the original text intact.
+Original work is from https://github.com/ku-nlp/text-cleaning, but the code has been heavily modified at this point. Primary changes include:
+- Conversion from a script-based to a package-based structure
+- The package direction moving towards suitability for NLP projects
+- Support for more modern versions of Python.
 
 ## Cleaning Example
 
