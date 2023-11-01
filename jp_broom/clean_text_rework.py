@@ -22,6 +22,10 @@ TODO:
 - Remove numbers?
 - Casing? Not sure if this is relevant, but maybe if you want to keep english in the text
 
+References:
+    https://en.wikipedia.org/wiki/Japanese_punctuation
+    https://en.wikipedia.org/wiki/Japanese_typographic_symbols
+
 """
 
 from mojimoji import han_to_zen
@@ -37,5 +41,31 @@ def normalize_width(text: str) -> str:
         Text with hankaku characters converted to zenkaku
     """
     return han_to_zen(text)
+
+
+def convert_punctuation(text: str) -> str:
+    """Converts punctuation to a single choice of punctuation
+
+    Args:
+        text: Input text
+
+    Returns:
+        Text with punctuation converted to a single choice of punctuation
+    """
+
+
+
+
+def normalize_punctuation(text: str) -> str:
+    """Normalize punctation, by converting to a single choice of punctuation, and
+    removing repeating punctuation.
+
+    Args:
+        text:
+
+    Returns:
+
+    """
+    ...
 
 
