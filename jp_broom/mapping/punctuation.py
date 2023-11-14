@@ -27,3 +27,8 @@ STANDARD_ELLIPSIS = "…"
 # Ref: https://en.wikipedia.org/wiki/Japanese_punctuation#Full_stop
 FULL_STOP_PATTERN = re.compile(r"[。．.]", re.UNICODE)
 STANDARD_FULL_STOP = "。"
+
+# Define wave dash
+# Ref: https://en.wikipedia.org/wiki/Japanese_punctuation#Wave_dash
+WAVE_DASH_PATTERN = re.compile(r"[〜～]", re.UNICODE)
+STANDARD_WAVE_DASH = "〜"

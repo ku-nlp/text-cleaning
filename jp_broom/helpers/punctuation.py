@@ -65,3 +65,16 @@ def standardize_full_stops(text: str) -> str:
     """
     text = FULL_STOP_PATTERN.sub(STANDARD_FULL_STOP, text)
     return text
+
+
+def standardize_wave_dash(text: str) -> str:
+    """Standardizes wave dashes to the standard wave dash.
+
+    Args:
+        text: Input text
+
+    Returns:
+        Text with wave dashes standardized to the standard wave dash.
+    """
+    text = WAVE_DASH_PATTERN.sub(STANDARD_WAVE_DASH, text)
+    return text
