@@ -1,6 +1,7 @@
 """
 DONE:
 - Text width conversion
+- Punctuation standardisation/removal
 
 TODO:
 
@@ -12,7 +13,6 @@ TODO:
 - Remove quotation symbols (e.g. 「」)
 - Remove repeating characters (e.g. !!!!!)
 - Removing special characters (find out which symbols the japanese use)
-- Remove/Trim punctuation
 - Remove/Trim whitespace
 - Remove stop words
 - Lemmatization

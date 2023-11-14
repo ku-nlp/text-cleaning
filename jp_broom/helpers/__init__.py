@@ -1,6 +1,6 @@
-from .punctuation import (standardize_brackets,
-                          standardize_commas,
-                          standardize_double_hyphens,
-                          standardize_ellipses,
-                          standardize_full_stops,
-                          standardize_wave_dash)
+from .punctuation import (clean_brackets,
+                          clean_commas,
+                          clean_double_hyphens,
+                          clean_ellipses,
+                          clean_full_stops,
+                          clean_wave_dash)

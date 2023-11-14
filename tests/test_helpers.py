@@ -1,60 +1,118 @@
-from jp_broom.helpers import (standardize_brackets, standardize_commas,
-                              standardize_double_hyphens, standardize_ellipses, standardize_full_stops, standardize_wave_dash)
+from jp_broom.helpers import (clean_brackets, clean_commas,
+                              clean_double_hyphens, clean_ellipses, clean_full_stops, clean_wave_dash)
 
 
-def test_standardize_brackets():
-    assert standardize_brackets("「") == "「"
-    assert standardize_brackets("『") == "「"
-    assert standardize_brackets("（") == "「"
-    assert standardize_brackets("〔") == "「"
-    assert standardize_brackets("［") == "「"
-    assert standardize_brackets("｛") == "「"
-    assert standardize_brackets("｟") == "「"
-    assert standardize_brackets("〈") == "「"
-    assert standardize_brackets("《") == "「"
-    assert standardize_brackets("【") == "「"
-    assert standardize_brackets("〖") == "「"
-    assert standardize_brackets("〘") == "「"
-    assert standardize_brackets("〚") == "「"
-    assert standardize_brackets("＜") == "「"
-    assert standardize_brackets("」") == "」"
-    assert standardize_brackets("』") == "」"
-    assert standardize_brackets("）") == "」"
-    assert standardize_brackets("〕") == "」"
-    assert standardize_brackets("］") == "」"
-    assert standardize_brackets("｝") == "」"
-    assert standardize_brackets("｠") == "」"
-    assert standardize_brackets("〉") == "」"
-    assert standardize_brackets("》") == "」"
-    assert standardize_brackets("】") == "」"
-    assert standardize_brackets("〗") == "」"
-    assert standardize_brackets("〙") == "」"
-    assert standardize_brackets("〛") == "」"
-    assert standardize_brackets("＞") == "」"
+def test_clean_brackets():
+    # Test standardization
+    assert clean_brackets("「") == "「"
+    assert clean_brackets("『") == "「"
+    assert clean_brackets("（") == "「"
+    assert clean_brackets("〔") == "「"
+    assert clean_brackets("［") == "「"
+    assert clean_brackets("｛") == "「"
+    assert clean_brackets("｟") == "「"
+    assert clean_brackets("〈") == "「"
+    assert clean_brackets("《") == "「"
+    assert clean_brackets("【") == "「"
+    assert clean_brackets("〖") == "「"
+    assert clean_brackets("〘") == "「"
+    assert clean_brackets("〚") == "「"
+    assert clean_brackets("＜") == "「"
+    assert clean_brackets("」") == "」"
+    assert clean_brackets("』") == "」"
+    assert clean_brackets("）") == "」"
+    assert clean_brackets("〕") == "」"
+    assert clean_brackets("］") == "」"
+    assert clean_brackets("｝") == "」"
+    assert clean_brackets("｠") == "」"
+    assert clean_brackets("〉") == "」"
+    assert clean_brackets("》") == "」"
+    assert clean_brackets("】") == "」"
+    assert clean_brackets("〗") == "」"
+    assert clean_brackets("〙") == "」"
+    assert clean_brackets("〛") == "」"
+    assert clean_brackets("＞") == "」"
+
+    # Test removal
+    assert clean_brackets("「", remove=True) == ""
+    assert clean_brackets("『", remove=True) == ""
+    assert clean_brackets("（", remove=True) == ""
+    assert clean_brackets("〔", remove=True) == ""
+    assert clean_brackets("［", remove=True) == ""
+    assert clean_brackets("｛", remove=True) == ""
+    assert clean_brackets("｟", remove=True) == ""
+    assert clean_brackets("〈", remove=True) == ""
+    assert clean_brackets("《", remove=True) == ""
+    assert clean_brackets("【", remove=True) == ""
+    assert clean_brackets("〖", remove=True) == ""
+    assert clean_brackets("〘", remove=True) == ""
+    assert clean_brackets("〚", remove=True) == ""
+    assert clean_brackets("＜", remove=True) == ""
+    assert clean_brackets("」", remove=True) == ""
+    assert clean_brackets("』", remove=True) == ""
+    assert clean_brackets("）", remove=True) == ""
+    assert clean_brackets("〕", remove=True) == ""
+    assert clean_brackets("］", remove=True) == ""
+    assert clean_brackets("｝", remove=True) == ""
+    assert clean_brackets("｠", remove=True) == ""
+    assert clean_brackets("〉", remove=True) == ""
+    assert clean_brackets("》", remove=True) == ""
+    assert clean_brackets("】", remove=True) == ""
+    assert clean_brackets("〗", remove=True) == ""
+    assert clean_brackets("〙", remove=True) == ""
+    assert clean_brackets("〛", remove=True) == ""
+    assert clean_brackets("＞", remove=True) == ""
 
 
-def test_standardize_commans():
-    assert standardize_commas("、") == "、"
-    assert standardize_commas("，") == "、"
-    assert standardize_commas("﹐") == "、"
+def test_clean_commas():
+    # Test standardization
+    assert clean_commas("、") == "、"
+    assert clean_commas("，") == "、"
+    assert clean_commas("﹐") == "、"
+
+    # Test removal
+    assert clean_commas("、", remove=True) == ""
+    assert clean_commas("，", remove=True) == ""
+    assert clean_commas("﹐", remove=True) == ""
 
 
-def test_standardize_double_hyphens():
-    assert standardize_double_hyphens("゠") == "＝"
-    assert standardize_double_hyphens("＝") == "＝"
+def test_clean_double_hyphens():
+    # Test standardization
+    assert clean_double_hyphens("゠") == "＝"
+    assert clean_double_hyphens("＝") == "＝"
+
+    # Test removal
+    assert clean_double_hyphens("゠", remove=True) == ""
+    assert clean_double_hyphens("＝", remove=True) == ""
 
 
-def test_standardize_ellipses():
-    assert standardize_ellipses("…") == "…"
-    assert standardize_ellipses("‥") == "…"
+def test_clean_ellipses():
+    # Test standardization
+    assert clean_ellipses("…") == "…"
+    assert clean_ellipses("‥") == "…"
+
+    # Test removal
+    assert clean_ellipses("…", remove=True) == ""
+    assert clean_ellipses("‥", remove=True) == ""
 
 
-def test_standardize_full_stops():
-    assert standardize_full_stops("。") == "。"
-    assert standardize_full_stops("．") == "。"
-    assert standardize_full_stops(".") == "。"
+def test_clean_full_stops():
+    # Test standardization
+    assert clean_full_stops("。") == "。"
+    assert clean_full_stops("．") == "。"
+    assert clean_full_stops(".") == "。"
+
+    # Test removal
+    assert clean_full_stops("。", remove=True) == ""
+    assert clean_full_stops("．", remove=True) == ""
+    assert clean_full_stops(".", remove=True) == ""
 
 
-def test_standardize_wave_dash():
-    assert standardize_wave_dash("〜") == "〜"
-    assert standardize_wave_dash("～") == "〜"
+def test_clean_wave_dash():
+    # Test standardization
+    assert clean_wave_dash("〜") == "〜"
+    assert clean_wave_dash("～") == "〜"
+
+    # Test removal
+    assert clean_wave_dash("〜", remove=True) == ""
+    assert clean_wave_dash("～", remove=True) == ""
