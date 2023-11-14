@@ -1,4 +1,4 @@
-from jp_broom import normalize_width
+from jp_broom.helpers import (normalize_width, clean_whitespace, clean_laughter)
 
 
 def test_normalize_width():
@@ -20,3 +20,16 @@ def test_normalize_width():
     assert normalize_width("､") == "、"
     assert normalize_width("･") == "・"
 
+
+def test_clean_whitespace():
+    """Test clean_whitespace function"""
+    assert clean_whitespace("  あいうえお  ") == " あいうえお "
+    assert clean_whitespace("  あいうえお  ", remove=True) == "あいうえお"
+
+
+def test_clean_laughter():
+    """Test clean_laughter function"""
+    assert clean_laughter("笑笑笑") == "笑"
+    assert clean_laughter("笑笑笑", remove=True) == ""
+    assert clean_laughter("wwww") == "w"
+    assert clean_laughter("wwww", remove=True) == ""

@@ -1,3 +1,8 @@
+"""
+Functions specifically related to cleaning punctuation characters (as classified in
+Wikipedia; https://en.wikipedia.org/wiki/Japanese_punctuation)
+"""
+
 from jp_broom.mapping.punctuation import *
 
 
