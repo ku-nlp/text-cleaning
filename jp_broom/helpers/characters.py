@@ -48,3 +48,20 @@ def clean_laughter(text: str, remove=False) -> str:
         return re.sub(r"[笑w]+", "", text)
     else:
         return re.sub(r"([笑w])\1+", r"\1", text)
+
+
+def clean_repeating_characters(text: str, min_repeats: int = 3, remove=False) -> str:
+    """Removes repeating characters if they repeat 'min_repeats' times or more.
+
+    Args:
+        text: Input text
+        min_repeats: Minimum number of repeats to consider for removal (default is 3)
+
+    Returns:
+        Text with repeating characters cleaned
+    """
+    pattern = rf"(\w)\1{{{min_repeats - 1},}}"
+    if remove:
+        return re.sub(pattern, "", text)
+    else:
+        return re.sub(pattern, r"\1", text)

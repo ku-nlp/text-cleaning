@@ -6,4 +6,5 @@ from .punctuation import (clean_brackets,
                           clean_wave_dash)
 from .characters import (normalize_width,
                          clean_whitespace,
-                         clean_laughter)
+                         clean_laughter,
+                         clean_repeating_characters)

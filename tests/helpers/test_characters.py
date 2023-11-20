@@ -1,4 +1,4 @@
-from jp_broom.helpers import (normalize_width, clean_whitespace, clean_laughter)
+from jp_broom.helpers import (normalize_width, clean_whitespace, clean_laughter, clean_repeating_characters)
 
 
 def test_normalize_width():
@@ -33,3 +33,10 @@ def test_clean_laughter():
     assert clean_laughter("笑笑笑", remove=True) == ""
     assert clean_laughter("wwww") == "w"
     assert clean_laughter("wwww", remove=True) == ""
+
+
+def test_clean_repeating_characters():
+    """Test clean_repeating_characters function"""
+    assert clean_repeating_characters("あああああ") == "あ"
+    assert clean_repeating_characters("ああ", min_repeats=3) == "ああ"
+    assert clean_repeating_characters("あああああ", remove=True) == ""
