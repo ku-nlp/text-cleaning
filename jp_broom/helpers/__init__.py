@@ -7,4 +7,5 @@ from .punctuation import (clean_brackets,
 from .characters import (normalize_width,
                          clean_whitespace,
                          clean_laughter,
-                         clean_repeating_characters)
+                         clean_repeating_characters,
+                         clean_kaomoji)

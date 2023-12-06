@@ -4,7 +4,7 @@ Functions related to cleaning characters
 
 import regex as re
 from mojimoji import han_to_zen
-
+from jp_broom import STATIC_ROOT
 
 def normalize_width(text: str) -> str:
     """Converts hankaku (half-width) characters to zenkaku (full-width)
@@ -56,6 +56,7 @@ def clean_repeating_characters(text: str, min_repeats: int = 3, remove=False) ->
     Args:
         text: Input text
         min_repeats: Minimum number of repeats to consider for removal (default is 3)
+        remove: If true removes all characters, else trims to 1
 
     Returns:
         Text with repeating characters cleaned
@@ -65,3 +66,28 @@ def clean_repeating_characters(text: str, min_repeats: int = 3, remove=False) ->
         return re.sub(pattern, "", text)
     else:
         return re.sub(pattern, r"\1", text)
+
+
+def clean_kaomoji(text: str) -> str:
+    """Removes kaomoji (e.g. (´・ω・`))
+
+    The reference can be found at https://gist.github.com/MichaelVerdegaal/57de6bc4abd6743f55350c5237972ca7, which is
+    a trimmed version of https://github.com/ekohrt/emoticon_kaomoji_dataset/tree/main
+
+    Args:
+        text: Input text
+
+    Returns:
+        Text with kaomoji cleaned
+    """
+    # Read emoji names from the text file
+    with open(STATIC_ROOT / "kaomoji.txt", encoding="UTF-8") as emoji_file:
+        emoji_names = [line.strip() for line in emoji_file]
+
+    # Create a regex pattern to match kaomoji
+    kaomoji_pattern = re.compile('|'.join(re.escape(emoji) for emoji in emoji_names))
+
+    # Remove kaomoji from the text
+    text_without_kaomoji = re.sub(kaomoji_pattern, '', text)
+
+    return text_without_kaomoji

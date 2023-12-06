@@ -1,4 +1,4 @@
-from jp_broom.helpers import (normalize_width, clean_whitespace, clean_laughter, clean_repeating_characters)
+from jp_broom.helpers import (normalize_width, clean_whitespace, clean_laughter, clean_repeating_characters, clean_kaomoji)
 
 
 def test_normalize_width():
@@ -40,3 +40,11 @@ def test_clean_repeating_characters():
     assert clean_repeating_characters("あああああ") == "あ"
     assert clean_repeating_characters("ああ", min_repeats=3) == "ああ"
     assert clean_repeating_characters("あああああ", remove=True) == ""
+
+
+def test_clean_kaomoji():
+    """Test clean_kaomoji function"""
+    assert clean_kaomoji("(°◡°♡)") == ""
+    assert clean_kaomoji("(─‿‿─)") == ""
+    assert clean_kaomoji("(´・ω・`)") == ""
+    assert clean_kaomoji("(^◡^)( ´∀` )") == ""
