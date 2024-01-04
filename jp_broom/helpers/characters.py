@@ -6,6 +6,7 @@ import regex as re
 from mojimoji import han_to_zen
 from jp_broom import STATIC_ROOT
 
+
 def normalize_width(text: str) -> str:
     """Converts hankaku (half-width) characters to zenkaku (full-width)
 
@@ -18,20 +19,23 @@ def normalize_width(text: str) -> str:
     return han_to_zen(text)
 
 
-def clean_whitespace(text: str, remove=False) -> str:
+def clean_whitespace(text: str, remove=False, convert=True) -> str:
     """Trims or removes whitespace
 
     Args:
         text: Input text
-        remove: Whether to remove whitespace or replace with a single space
+        remove: Whether to remove whitespace or to trim it
+        convert: Whether to convert all whitespace to a single space
 
     Returns:
         Text with whitespace trimmed or removed
     """
     if remove:
         return re.sub(r"\s+", "", text)
-    else:
+    elif convert:
         return re.sub(r"\s+", " ", text)
+    else:
+        return re.sub(r"\s{2,}", lambda match: match.group(0)[0], text)
 
 
 def clean_laughter(text: str, remove=False) -> str:

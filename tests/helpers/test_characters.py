@@ -23,8 +23,18 @@ def test_normalize_width():
 
 def test_clean_whitespace():
     """Test clean_whitespace function"""
+    # Test with default parameters (convert=True, remove=False)
     assert clean_whitespace("  あいうえお  ") == " あいうえお "
+
+    # Test with remove=True
     assert clean_whitespace("  あいうえお  ", remove=True) == "あいうえお"
+
+    # Test with convert=False, remove=False
+    assert clean_whitespace("  あいうえお  ", convert=False) == " あいうえお "
+    assert clean_whitespace("あい  うえ  お", convert=False) == "あい うえ お"
+
+    # Test with convert=False, remove=True
+    assert clean_whitespace("あい  うえ  お", remove=True, convert=False) == "あいうえお"
 
 
 def test_clean_laughter():
