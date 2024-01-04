@@ -75,6 +75,11 @@ def test_clean_commas():
     assert clean_commas("，", remove=True) == ""
     assert clean_commas("﹐", remove=True) == ""
 
+    # Test conversion
+    assert clean_commas("、", convert=True) == " "
+    assert clean_commas("，", convert=True) == " "
+    assert clean_commas("﹐", convert=True) == " "
+
 
 def test_clean_double_hyphens():
     # Test standardization
@@ -106,6 +111,11 @@ def test_clean_full_stops():
     assert clean_full_stops("。", remove=True) == ""
     assert clean_full_stops("．", remove=True) == ""
     assert clean_full_stops(".", remove=True) == ""
+
+    # Test conversion
+    assert clean_full_stops("。", convert=True) == " "
+    assert clean_full_stops("．", convert=True) == " "
+    assert clean_full_stops(".", convert=True) == " "
 
 
 def test_clean_wave_dash():

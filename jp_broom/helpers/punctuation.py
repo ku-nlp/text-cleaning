@@ -25,18 +25,21 @@ def clean_brackets(text: str, remove=False) -> str:
     return text
 
 
-def clean_commas(text: str, remove=False) -> str:
+def clean_commas(text: str, remove=False, convert=False) -> str:
     """Standardizes commas to the standard comma.
 
     Args:
         text: Input text
         remove: If True, remove commas instead of standardizing them
+        convert: If True, convert all commas to a space
 
     Returns:
         Text with commas standardized to the standard comma.
     """
     if remove:
         text = COMMA_PATTERN.sub("", text)
+    elif convert:
+        text = COMMA_PATTERN.sub(" ", text)
     else:
         text = COMMA_PATTERN.sub(STANDARD_COMMA, text)
     return text
@@ -76,18 +79,21 @@ def clean_ellipses(text: str, remove=False) -> str:
     return text
 
 
-def clean_full_stops(text: str, remove=False) -> str:
+def clean_full_stops(text: str, remove=False, convert=False) -> str:
     """Standardizes full stops to the standard full stop.
 
     Args:
         text: Input text
         remove: If True, remove full stops instead of standardizing them
+        convert: If True, convert all full stops to a space
 
     Returns:
         Text with full stops standardized to the standard full stop.
     """
     if remove:
         text = FULL_STOP_PATTERN.sub("", text)
+    elif convert:
+        text = FULL_STOP_PATTERN.sub(" ", text)
     else:
         text = FULL_STOP_PATTERN.sub(STANDARD_FULL_STOP, text)
     return text
