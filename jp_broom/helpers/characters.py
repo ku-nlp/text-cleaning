@@ -5,6 +5,7 @@ Functions related to cleaning characters
 import regex as re
 from mojimoji import han_to_zen
 from jp_broom import STATIC_ROOT
+from jp_broom.mapping import FULL_NUMBER_PATTERN
 
 
 def normalize_width(text: str) -> str:
@@ -95,3 +96,27 @@ def clean_kaomoji(text: str) -> str:
     text_without_kaomoji = re.sub(kaomoji_pattern, '', text)
 
     return text_without_kaomoji
+
+
+def clean_numbers(text: str, remove=False, convert=False) -> str:
+    """Cleans digits in the text by removing or converting them.
+
+    Args:
+        text: Input text
+        remove: If True, removes all digits.
+        convert: If True, converts full-width digits to half-width
+
+    Returns:
+        Text with digits cleaned as specified.
+    """
+    full_width_digits = "０１２３４５６７８９"
+    half_width_digits = "0123456789"
+
+    if remove:
+        text = FULL_NUMBER_PATTERN.sub("", text)
+    else:
+        if convert:
+            trans_table = str.maketrans(full_width_digits, half_width_digits)
+            text = text.translate(trans_table)
+
+    return text

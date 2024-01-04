@@ -1,4 +1,5 @@
-from jp_broom.helpers import (normalize_width, clean_whitespace, clean_laughter, clean_repeating_characters, clean_kaomoji)
+from jp_broom.helpers import (normalize_width, clean_whitespace, clean_laughter,
+                              clean_repeating_characters, clean_kaomoji, clean_numbers)
 
 
 def test_normalize_width():
@@ -61,3 +62,23 @@ def test_clean_kaomoji():
 
     # make sure it doesn't remove normal full stops
     assert clean_kaomoji("あああ。") == "あああ。"
+
+
+def test_clean_numbers():
+    """Test clean_numbers function"""
+
+    # Test for removing numbers
+    assert clean_numbers("テスト123テスト", remove=True) == "テストテスト"
+    assert clean_numbers("テスト０１２テスト", remove=True) == "テストテスト"
+
+    # Test for converting full-width to half-width
+    assert clean_numbers("テスト０１２テスト", convert=True) == "テスト012テスト"
+    assert clean_numbers("テスト４５６テスト", convert=True) == "テスト456テスト"
+
+    # Test for no action (neither remove nor convert)
+    assert clean_numbers("テストテスト") == "テストテスト"
+    assert clean_numbers("テスト123テスト") == "テスト123テスト"
+    assert clean_numbers("テスト０１２テスト") == "テスト０１２テスト"
+
+    # Ensure it doesn't convert half-width to full-width when convert=False
+    assert clean_numbers("テスト123テスト", convert=False) == "テスト123テスト"

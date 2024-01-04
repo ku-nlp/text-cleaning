@@ -32,3 +32,7 @@ STANDARD_FULL_STOP = "。"
 # Ref: https://en.wikipedia.org/wiki/Japanese_punctuation#Wave_dash
 WAVE_DASH_PATTERN = re.compile(r"[〜～]", re.UNICODE)
 STANDARD_WAVE_DASH = "〜"
+
+# Define digits
+# Include half-width and full-width digits
+FULL_NUMBER_PATTERN = re.compile(r"[0-9０-９]", re.UNICODE)
