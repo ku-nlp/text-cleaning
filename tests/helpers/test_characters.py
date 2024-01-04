@@ -58,3 +58,6 @@ def test_clean_kaomoji():
     assert clean_kaomoji("(─‿‿─)") == ""
     assert clean_kaomoji("(´・ω・`)") == ""
     assert clean_kaomoji("(^◡^)( ´∀` )") == ""
+
+    # make sure it doesn't remove normal full stops
+    assert clean_kaomoji("あああ。") == "あああ。"
