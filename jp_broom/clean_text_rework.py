@@ -23,7 +23,7 @@ def clean_text(text: str,
     """
     if normal_clean:
         text = normalize_width(text)
-        # text = clean_kaomoji(text)
+        text = clean_kaomoji(text)
         text = clean_laughter(text, remove=False)
         text = clean_repeating_characters(text, min_repeats=3, remove=False)
         text = clean_brackets(text, remove=False)
@@ -36,7 +36,7 @@ def clean_text(text: str,
         return text
     else:
         text = normalize_width(text)
-        # text = clean_kaomoji(text)
+        text = clean_kaomoji(text)
         text = clean_laughter(text, remove=True)
         text = clean_repeating_characters(text, min_repeats=3, remove=True)
         text = clean_brackets(text, remove=True)

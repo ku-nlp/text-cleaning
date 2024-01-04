@@ -114,3 +114,20 @@ def clean_wave_dash(text: str, remove=False) -> str:
     else:
         text = WAVE_DASH_PATTERN.sub(STANDARD_WAVE_DASH, text)
     return text
+
+
+def clean_numbers(text: str, remove=False, convert=False) -> str:
+    """Standardizes numbers to the standard number.
+
+    Args:
+        text: Input text
+        remove: If True, remove numbers instead of standardizing them
+        convert: If True, convert all numbers to the western number system
+
+    Returns:
+        Text with numbers standardized to the standard number.
+    """
+    if remove:
+        text = NUMBER_PATTERN.sub("", text)
+    elif convert:
+        text = NUMBER_PATTERN.sub(lambda match: str(int(match.group(0))), text)

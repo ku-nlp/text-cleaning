@@ -95,10 +95,12 @@ def test_clean_ellipses():
     # Test standardization
     assert clean_ellipses("…") == "…"
     assert clean_ellipses("‥") == "…"
+    assert clean_ellipses("・") == "…"
 
     # Test removal
     assert clean_ellipses("…", remove=True) == ""
     assert clean_ellipses("‥", remove=True) == ""
+    assert clean_ellipses("・", remove=True) == ""
 
 
 def test_clean_full_stops():

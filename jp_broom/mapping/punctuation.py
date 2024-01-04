@@ -20,7 +20,7 @@ STANDARD_DOUBLE_HYPHEN = "＝"
 
 # Define Japanese ellipses
 # Ref: https://en.wikipedia.org/wiki/Japanese_punctuation#Ellipsis
-ELLIPSIS_PATTERN = re.compile(r"[…‥]", re.UNICODE)
+ELLIPSIS_PATTERN = re.compile(r"[…‥・]", re.UNICODE)
 STANDARD_ELLIPSIS = "…"
 
 # Define full stops
