@@ -3,7 +3,7 @@ Functions specifically related to cleaning punctuation characters (as classified
 Wikipedia; https://en.wikipedia.org/wiki/Japanese_punctuation)
 """
 
-from jp_broom.mapping.punctuation import *
+from jp_broom.mapping.patterns import *
 
 
 def clean_brackets(text: str, remove=False) -> str:
