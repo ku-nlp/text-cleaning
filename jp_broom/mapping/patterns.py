@@ -28,6 +28,13 @@ STANDARD_ELLIPSIS = "…"
 FULL_STOP_PATTERN = re.compile(r"[。．.]", re.UNICODE)
 STANDARD_FULL_STOP = "。"
 
+# Define other sentence ending charactgersd
+# Ref: https://en.wikipedia.org/wiki/Japanese_punctuation#Other_punctuation_marks_in_common_use
+EXCLAMATION_MARK_PATTERN = re.compile(r"[！!]", re.UNICODE)
+STANDARD_EXCLAMATION_MARK = "！"
+QUESTION_MARK_PATTERN = re.compile(r"[？?]", re.UNICODE)
+STANDARD_QUESTION_MARK = "？"
+
 # Define wave dash
 # Ref: https://en.wikipedia.org/wiki/Japanese_punctuation#Wave_dash
 WAVE_DASH_PATTERN = re.compile(r"[〜～]", re.UNICODE)

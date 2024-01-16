@@ -5,7 +5,7 @@ from jp_broom.helpers import (normalize_width, clean_whitespace, clean_laughter,
                               clean_repeating_characters, clean_kaomoji, clean_brackets,
                               clean_commas, clean_numbers,
                               clean_double_hyphens, clean_ellipses, clean_full_stops,
-                              clean_wave_dash)
+                              clean_wave_dash, clean_sentence_end)
 
 
 # TODO: split this into two functions
@@ -31,6 +31,7 @@ def clean_text(text: str,
         text = clean_double_hyphens(text, remove=False)
         text = clean_ellipses(text, remove=False)
         text = clean_full_stops(text, remove=False, convert=False)
+        text = clean_sentence_end(text, remove=False, convert=False)
         text = clean_wave_dash(text, remove=False)
         text = clean_numbers(text, remove=False, convert=True)
         text = clean_whitespace(text, remove=False, convert=False)
@@ -45,6 +46,7 @@ def clean_text(text: str,
         text = clean_double_hyphens(text, remove=True)
         text = clean_ellipses(text, remove=True)
         text = clean_full_stops(text, remove=False, convert=True)
+        text = clean_sentence_end(text, remove=False, convert=True)
         text = clean_wave_dash(text, remove=True)
         text = clean_numbers(text, remove=True, convert=False)
         text = clean_whitespace(text, remove=False, convert=True)

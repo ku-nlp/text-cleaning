@@ -1,5 +1,6 @@
 from jp_broom.helpers import (clean_brackets, clean_commas,
-                              clean_double_hyphens, clean_ellipses, clean_full_stops, clean_wave_dash)
+                              clean_double_hyphens, clean_ellipses, clean_full_stops,
+                              clean_wave_dash, clean_sentence_end)
 
 
 def test_clean_brackets():
@@ -118,6 +119,26 @@ def test_clean_full_stops():
     assert clean_full_stops("。", convert=True) == " "
     assert clean_full_stops("．", convert=True) == " "
     assert clean_full_stops(".", convert=True) == " "
+
+
+def test_clean_sentence_end():
+    # Test standardization
+    assert clean_sentence_end("！") == "！"
+    assert clean_sentence_end("!") == "！"
+    assert clean_sentence_end("？") == "？"
+    assert clean_sentence_end("?") == "？"
+
+    # Test removal
+    assert clean_sentence_end("！", remove=True) == ""
+    assert clean_sentence_end("!", remove=True) == ""
+    assert clean_sentence_end("？", remove=True) == ""
+    assert clean_sentence_end("?", remove=True) == ""
+
+    # Test conversion
+    assert clean_sentence_end("！", convert=True) == " "
+    assert clean_sentence_end("!", convert=True) == " "
+    assert clean_sentence_end("？", convert=True) == " "
+    assert clean_sentence_end("?", convert=True) == " "
 
 
 def test_clean_wave_dash():

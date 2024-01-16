@@ -99,6 +99,29 @@ def clean_full_stops(text: str, remove=False, convert=False) -> str:
     return text
 
 
+def clean_sentence_end(text: str, remove=False, convert=False) -> str:
+    """Standardizes sentence endings other than a full stop (? and !)
+
+    Args:
+        text: Input text
+        remove: If True, remove sentence endings instead of standardizing them
+        convert: If True, convert all sentence endings to a space
+
+    Returns:
+        Text with full stops standardized to the standard full stop.
+    """
+    if remove:
+        text = EXCLAMATION_MARK_PATTERN.sub("", text)
+        text = QUESTION_MARK_PATTERN.sub("", text)
+    elif convert:
+        text = EXCLAMATION_MARK_PATTERN.sub(" ", text)
+        text = QUESTION_MARK_PATTERN.sub(" ", text)
+    else:
+        text = EXCLAMATION_MARK_PATTERN.sub(STANDARD_EXCLAMATION_MARK, text)
+        text = QUESTION_MARK_PATTERN.sub(STANDARD_QUESTION_MARK, text)
+    return text
+
+
 def clean_wave_dash(text: str, remove=False) -> str:
     """Standardizes wave dashes to the standard wave dash.
 
