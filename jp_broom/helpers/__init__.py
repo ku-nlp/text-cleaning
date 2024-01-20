@@ -12,3 +12,4 @@ from .characters import (normalize_width,
                          clean_kaomoji,
                          clean_numbers,
                          clean_misc_characters)
+from .nlp import tokenize_text

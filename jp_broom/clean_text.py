@@ -6,7 +6,7 @@ from jp_broom.helpers import (normalize_width, clean_whitespace, clean_laughter,
                               clean_commas, clean_numbers,
                               clean_double_hyphens, clean_ellipses, clean_full_stops,
                               clean_wave_dash, clean_sentence_end,
-                              clean_misc_characters)
+                              clean_misc_characters, tokenize_text)
 
 
 def clean(text: str) -> str:
@@ -58,7 +58,8 @@ def clean_and_tokenize(text: str) -> str:
     text = clean_wave_dash(text, remove=True)
     text = clean_numbers(text, remove=True, convert=False)
     text = clean_whitespace(text, remove=False, convert=True)
-    return text
+    tokens, text = tokenize_text(text, remove_stop_words=True, lemmatize=True)
+    return tokens
 
 
 test_text = open("test.txt", "r", encoding="utf-8").read()

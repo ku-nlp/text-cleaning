@@ -3,16 +3,31 @@ Functions related to Natural Language Processing (NLP). Mainly to
 create a separate space for Spacy related functions.
 """
 import spacy
-from spacy import Language
+
+nlp = spacy.load("ja_core_news_md")
 
 
-def load_spacy_model(model_name: str = "ja_core_news_md") -> Language:
-    """Loads a Spacy model
+def tokenize_text(text: str, remove_stop_words=True, lemmatize=True) -> str:
+    """
+    Tokenizes text using spaCy, with options to remove stop words and lemmatize.
 
     Args:
-        model_name: Name of the model to load (default is "ja_ginza")
+        text (str): Input text.
+        remove_stop_words (bool): Whether to remove stop words. Defaults to True.
+        lemmatize (bool): Whether to lemmatize the text. Defaults to True.
 
     Returns:
-        Spacy Language object
+        str: Processed text, processed text as tokens
     """
-    return spacy.load(model_name)
+    doc = nlp(text)
+    tokens = []
+
+    for token in doc:
+        if remove_stop_words and token.is_stop:
+            continue
+        if lemmatize:
+            tokens.append(token.lemma_)
+        else:
+            tokens.append(token.text)
+
+    return " ".join(tokens), tokens
