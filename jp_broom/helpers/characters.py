@@ -7,6 +7,11 @@ from mojimoji import han_to_zen
 from jp_broom import STATIC_ROOT
 from jp_broom.mapping import FULL_NUMBER_PATTERN, MISC_PATTERN
 
+# Pre-load emoji names from the text file to create a regex pattern
+with open(STATIC_ROOT / "kaomoji.txt", encoding="UTF-8") as emoji_file:
+    emoji_names = [line.strip() for line in emoji_file]
+kaomoji_pattern = re.compile('|'.join(re.escape(emoji) for emoji in emoji_names))
+
 
 def normalize_width(text: str) -> str:
     """Converts hankaku (half-width) characters to zenkaku (full-width)
@@ -85,13 +90,6 @@ def clean_kaomoji(text: str) -> str:
     Returns:
         Text with kaomoji cleaned
     """
-    # Read emoji names from the text file
-    with open(STATIC_ROOT / "kaomoji.txt", encoding="UTF-8") as emoji_file:
-        emoji_names = [line.strip() for line in emoji_file]
-
-    # Create a regex pattern to match kaomoji
-    kaomoji_pattern = re.compile('|'.join(re.escape(emoji) for emoji in emoji_names))
-
     # Remove kaomoji from the text
     text_without_kaomoji = re.sub(kaomoji_pattern, '', text)
 
