@@ -9,7 +9,7 @@ from jp_broom.helpers import (normalize_width, clean_whitespace, clean_laughter,
                               clean_misc_characters, tokenize_text)
 
 
-def clean(text: str) -> str:
+def clean_light(text: str) -> str:
     """Cleans text using the functions found in the helpers sub-directory.
 
     Args:
@@ -34,9 +34,9 @@ def clean(text: str) -> str:
     return text
 
 
-def clean_and_tokenize(text: str) -> str:
+def clean_deep(text: str) -> str:
     """Cleans text using the functions found in the helpers sub-directory,
-    and tokenizes to sentences
+    and splits to sentences with a space in them
 
     Args:
         text: Input text
@@ -58,13 +58,18 @@ def clean_and_tokenize(text: str) -> str:
     text = clean_wave_dash(text, remove=True)
     text = clean_numbers(text, remove=True, convert=False)
     text = clean_whitespace(text, remove=False, convert=True)
-    tokens, text = tokenize_text(text, remove_stop_words=True, lemmatize=True)
-    return tokens
+    return text
 
 
-test_text = open("test.txt", "r", encoding="utf-8").read()
-# save
-with open("cleaned.txt", "w", encoding="utf-8") as f:
-    f.write(clean(test_text))
-with open("tokenized.txt", "w", encoding="utf-8") as f:
-    f.write(clean_and_tokenize(test_text))
+def clean_deep_tokenize(text: str) -> str:
+    """On top of a deep clean, removes stop words, lemmatizes and tokenizes the text.
+
+    Args:
+        text: Input text
+
+    Returns:
+        Tokenized text
+    """
+    text = clean_deep(text)
+    text, tokens = tokenize_text(text, remove_stop_words=True, lemmatize=True)
+    return text, tokens
