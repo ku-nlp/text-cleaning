@@ -10,4 +10,5 @@ from .characters import (normalize_width,
                          clean_laughter,
                          clean_repeating_characters,
                          clean_kaomoji,
-                         clean_numbers)
+                         clean_numbers,
+                         clean_misc_characters)

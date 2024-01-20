@@ -43,3 +43,8 @@ STANDARD_WAVE_DASH = "〜"
 # Define digits
 # Include half-width and full-width digits
 FULL_NUMBER_PATTERN = re.compile(r"[0-9０-９]", re.UNICODE)
+
+# Misc characters
+# Characters that don't appear in the above patterns
+# TODO: ideally make a new one for percentages
+MISC_PATTERN = re.compile(r"[□%％]", re.UNICODE)

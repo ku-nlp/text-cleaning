@@ -5,7 +5,7 @@ Functions related to cleaning characters
 import regex as re
 from mojimoji import han_to_zen
 from jp_broom import STATIC_ROOT
-from jp_broom.mapping import FULL_NUMBER_PATTERN
+from jp_broom.mapping import FULL_NUMBER_PATTERN, MISC_PATTERN
 
 
 def normalize_width(text: str) -> str:
@@ -120,3 +120,18 @@ def clean_numbers(text: str, remove=False, convert=False) -> str:
             text = text.translate(trans_table)
 
     return text
+
+
+def clean_misc_characters(text: str) -> str:
+    """Cleans miscellaneous characters not in the other helper functions:
+
+    - Squares = □
+    - Percentages = %％
+
+    Args:
+        text: Input text
+
+    Returns:
+        Text with digits cleaned as specified.
+    """
+    return MISC_PATTERN.sub("", text)

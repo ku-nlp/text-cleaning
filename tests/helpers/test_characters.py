@@ -1,5 +1,5 @@
 from jp_broom.helpers import (normalize_width, clean_whitespace, clean_laughter,
-                              clean_repeating_characters, clean_kaomoji, clean_numbers)
+                              clean_repeating_characters, clean_kaomoji, clean_numbers, clean_misc_characters)
 
 
 def test_normalize_width():
@@ -82,3 +82,11 @@ def test_clean_numbers():
 
     # Ensure it doesn't convert half-width to full-width when convert=False
     assert clean_numbers("テスト123テスト", convert=False) == "テスト123テスト"
+
+
+def test_clean_misc_characters():
+    """Test clean_misc_characters function"""
+    assert clean_misc_characters("□") == ""
+    assert clean_misc_characters("％") == ""
+    assert clean_misc_characters("%") == ""
+
